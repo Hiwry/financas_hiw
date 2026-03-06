@@ -30,6 +30,7 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
   const [renegotiateCount, setRenegotiateCount] = useState('3');
   const [renegotiateAmount, setRenegotiateAmount] = useState('');
   const [confirmAction, setConfirmAction] = useState<ConfirmAction | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const toggleStatus = (transaction: Transaction) => {
     if (!canEdit) return;
@@ -74,76 +75,83 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
   return (
     <div className="p-4 space-y-6 pb-24">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Lancamentos</h2>
-        <button className="p-2 bg-gray-100 rounded-full text-gray-600 hover:bg-gray-200 transition-colors">
+        <h2 className="text-2xl font-bold text-gray-800">Extrato</h2>
+        <button 
+          onClick={() => setShowFilters(!showFilters)}
+          className={`p-2 rounded-full transition-all ${
+            showFilters ? 'bg-indigo-600 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 shadow-sm'
+          }`}
+        >
           <Filter size={20} />
         </button>
       </div>
 
-      <div className="space-y-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-          <input
-            type="text"
-            placeholder="Buscar lancamentos..."
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-shadow"
-          />
-        </div>
+      {showFilters && (
+        <div className="space-y-4 animate-in slide-in-from-top-2 duration-200">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            <input
+              type="text"
+              placeholder="Buscar lancamentos..."
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-shadow"
+            />
+          </div>
 
-        <div className="flex space-x-2">
-          {['all', 'income', 'expense'].map((type) => (
-            <button
-              key={type}
-              onClick={() => {
-                setFilterType(type as any);
-                setFilterCategory('all');
-              }}
-              className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
-                filterType === type
-                  ? type === 'income'
-                    ? 'bg-emerald-100 text-emerald-700'
-                    : type === 'expense'
-                      ? 'bg-rose-100 text-rose-700'
-                      : 'bg-indigo-100 text-indigo-700'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
-              }`}
-            >
-              {type === 'all' ? 'Todos' : type === 'income' ? 'Receitas' : 'Despesas'}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex space-x-2 overflow-x-auto hide-scrollbar pb-1">
-          <button
-            onClick={() => setFilterCategory('all')}
-            className={`shrink-0 px-4 py-1.5 text-sm font-medium rounded-full transition-colors ${
-              filterCategory === 'all'
-                ? 'bg-gray-800 text-white'
-                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
-            }`}
-          >
-            Todas as Categorias
-          </button>
-          {categories
-            .filter((category) => filterType === 'all' || category.type === filterType)
-            .map((category) => (
+          <div className="flex space-x-2">
+            {['all', 'income', 'expense'].map((type) => (
               <button
-                key={category.id}
-                onClick={() => setFilterCategory(category.id)}
-                className={`shrink-0 px-3 py-1.5 text-sm font-medium rounded-full transition-colors flex items-center space-x-1.5 ${
-                  filterCategory === category.id
-                    ? 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+                key={type}
+                onClick={() => {
+                  setFilterType(type as any);
+                  setFilterCategory('all');
+                }}
+                className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
+                  filterType === type
+                    ? type === 'income'
+                      ? 'bg-emerald-100 text-emerald-700'
+                      : type === 'expense'
+                        ? 'bg-rose-100 text-rose-700'
+                        : 'bg-indigo-100 text-indigo-700'
                     : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
                 }`}
               >
-                <CategoryIcon name={category.icon} type={category.type} size={14} />
-                <span>{category.name}</span>
+                {type === 'all' ? 'Todos' : type === 'income' ? 'Receitas' : 'Despesas'}
               </button>
             ))}
+          </div>
+
+          <div className="flex space-x-2 overflow-x-auto hide-scrollbar pb-1">
+            <button
+              onClick={() => setFilterCategory('all')}
+              className={`shrink-0 px-4 py-1.5 text-sm font-medium rounded-full transition-colors ${
+                filterCategory === 'all'
+                  ? 'bg-gray-800 text-white'
+                  : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+              }`}
+            >
+              Todas as Categorias
+            </button>
+            {categories
+              .filter((category) => filterType === 'all' || category.type === filterType)
+              .map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setFilterCategory(category.id)}
+                  className={`shrink-0 px-3 py-1.5 text-sm font-medium rounded-full transition-colors flex items-center space-x-1.5 ${
+                    filterCategory === category.id
+                      ? 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+                      : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                  }`}
+                >
+                  <CategoryIcon name={category.icon} type={category.type} size={14} />
+                  <span>{category.name}</span>
+                </button>
+              ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="space-y-6">
         {Object.keys(groupedTransactions).length === 0 ? (

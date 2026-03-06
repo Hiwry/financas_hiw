@@ -3,6 +3,12 @@ import { useAppStore, suggestCategoryIcon } from '../store';
 import { CategoryIcon, availableIcons } from '../components/CategoryIcon';
 import { Download, Edit2, FileDown, Save, Search, Trash2, Upload, Wand2, X, Users } from 'lucide-react';
 import { toLocalIsoDate } from '../utils/date';
+import { AlertTriangle } from 'lucide-react';
+
+interface ConfirmAction {
+  message: string;
+  onConfirm: () => void;
+}
 
 type HouseholdRole = 'owner' | 'editor' | 'viewer';
 
@@ -55,6 +61,7 @@ export const Categorias: React.FC = () => {
   const [goalDrafts, setGoalDrafts] = useState<Record<string, string>>({});
   const [newMemberName, setNewMemberName] = useState('');
   const [newMemberRole, setNewMemberRole] = useState<HouseholdRole>('editor');
+  const [confirmAction, setConfirmAction] = useState<ConfirmAction | null>(null);
   const restoreInputRef = useRef<HTMLInputElement | null>(null);
 
   const goalMap = useMemo(
@@ -112,7 +119,6 @@ export const Categorias: React.FC = () => {
   const handleExportPdf = () => {
     const popup = window.open('', '_blank');
     if (!popup) {
-      alert('Nao foi possivel abrir a janela de impressao.');
       return;
     }
 
@@ -195,9 +201,12 @@ export const Categorias: React.FC = () => {
         return;
       }
 
-      if (!window.confirm('Restaurar backup? Isso substitui os dados atuais.')) {
-        return;
-      }
+      setConfirmAction({
+        message: 'Restaurar backup? Isso substitui todos os seus dados atuais por uma versao anterior.',
+        onConfirm: () => {
+          replaceState(parsed);
+        },
+      });
 
       replaceState(parsed);
       alert('Backup restaurado com sucesso.');
@@ -340,9 +349,11 @@ export const Categorias: React.FC = () => {
               </select>
               <button
                 onClick={() => {
-                  if (!canEdit) return;
                   if (household.members.length <= 1) return;
-                  deleteHouseholdMember(member.id);
+                  setConfirmAction({
+                    message: `Remover o membro "${member.name}"?`,
+                    onConfirm: () => deleteHouseholdMember(member.id),
+                  });
                 }}
                 disabled={!canEdit || household.members.length <= 1}
                 className="p-2 rounded-lg bg-rose-50 text-rose-600 disabled:opacity-50"
@@ -479,6 +490,39 @@ export const Categorias: React.FC = () => {
           </div>
         ))}
       </div>
+
+      {/* Confirmation Modal */}
+      {confirmAction && (
+        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl w-full max-w-sm shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200">
+            <div className="p-6 text-center">
+              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-rose-600">
+                <AlertTriangle size={32} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Confirmar Acao</h3>
+              <p className="text-gray-500 mb-6">{confirmAction.message}</p>
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setConfirmAction(null)}
+                  className="flex-1 py-3.5 px-4 bg-gray-100 text-gray-700 font-bold rounded-2xl hover:bg-gray-200 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={() => {
+                    confirmAction.onConfirm();
+                    setConfirmAction(null);
+                  }}
+                  className="flex-1 py-3.5 px-4 bg-rose-600 text-white font-bold rounded-2xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200"
+                >
+                  Confirmar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

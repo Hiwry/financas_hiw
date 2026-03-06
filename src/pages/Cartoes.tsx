@@ -3,6 +3,11 @@ import { useAppStore } from '../store';
 import { AlertTriangle, Calendar, CreditCard, Pencil, Percent, Plus, Save, Trash2, Wallet } from 'lucide-react';
 import { toLocalIsoDate } from '../utils/date';
 
+interface ConfirmAction {
+  message: string;
+  onConfirm: () => void;
+}
+
 type InvoiceSummary = {
   cycleKey: string;
   total: number;
@@ -52,6 +57,7 @@ export const Cartoes: React.FC = () => {
     amount: string;
     paidAt: string;
   } | null>(null);
+  const [confirmAction, setConfirmAction] = useState<ConfirmAction | null>(null);
 
   const formatCurrency = (value: number) =>
     new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
@@ -271,9 +277,10 @@ export const Cartoes: React.FC = () => {
                     <button
                       onClick={() => {
                         if (!canEdit) return;
-                        if (window.confirm('Remover este cartao?')) {
-                          deleteCreditCard(card.id);
-                        }
+                        setConfirmAction({
+                          message: `Remover o cartão "${card.name}" e todas as suas despesas pendentes?`,
+                          onConfirm: () => deleteCreditCard(card.id),
+                        });
                       }}
                       className="p-2 rounded-full bg-rose-50 text-rose-600 hover:bg-rose-100"
                       aria-label={`Excluir ${card.name}`}
@@ -479,6 +486,39 @@ export const Cartoes: React.FC = () => {
           })
         )}
       </div>
+
+      {/* Confirmation Modal */}
+      {confirmAction && (
+        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white rounded-3xl w-full max-w-sm shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200">
+            <div className="p-6 text-center">
+              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-rose-600">
+                <AlertTriangle size={32} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Confirmar Exclusão</h3>
+              <p className="text-gray-500 mb-6">{confirmAction.message}</p>
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setConfirmAction(null)}
+                  className="flex-1 py-3.5 px-4 bg-gray-100 text-gray-700 font-bold rounded-2xl hover:bg-gray-200 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={() => {
+                    confirmAction.onConfirm();
+                    setConfirmAction(null);
+                  }}
+                  className="flex-1 py-3.5 px-4 bg-rose-600 text-white font-bold rounded-2xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200"
+                >
+                  Confirmar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
