@@ -236,6 +236,7 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
                               <button
                                 onClick={(event) => {
                                   event.stopPropagation();
+                                  event.preventDefault();
                                   if (!canEdit) return;
                                   setConfirmAction({
                                     message: 'Excluir este lancamento pendente?',
