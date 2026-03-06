@@ -421,12 +421,12 @@ export const Categorias: React.FC = () => {
               onChange={(e) => useAppStore().setDefaultPaymentMethod(e.target.value as any)}
               className="w-full p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
             >
-              <option value="pix">PIX</option>
-              <option value="credito">Cartao de Credito</option>
-              <option value="debito">Cartao de Debito</option>
-              <option value="dinheiro">Dinheiro</option>
-              <option value="boleto">Boleto</option>
-              <option value="transferencia">Transferencia</option>
+              <option value="pix" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">PIX</option>
+              <option value="credito" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Cartao de Credito</option>
+              <option value="debito" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Cartao de Debito</option>
+              <option value="dinheiro" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Dinheiro</option>
+              <option value="boleto" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Boleto</option>
+              <option value="transferencia" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Transferencia</option>
             </select>
           </div>
           
@@ -438,7 +438,7 @@ export const Categorias: React.FC = () => {
               className="w-full p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
             >
               {accounts.map((acc) => (
-                <option key={acc} value={acc}>{acc}</option>
+                <option key={acc} value={acc} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">{acc}</option>
               ))}
             </select>
           </div>

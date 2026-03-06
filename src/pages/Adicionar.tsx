@@ -639,7 +639,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                 {categories
                   .filter((category) => category.type === type)
                   .map((category) => (
-                    <option key={category.id} value={category.id}>
+                    <option key={category.id} value={category.id} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                       {category.name}
                     </option>
                   ))}
@@ -662,7 +662,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                   className="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm text-gray-900 dark:text-gray-300"
                 >
                   {accounts.map((item) => (
-                    <option key={item} value={item}>
+                    <option key={item} value={item} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                       {item}
                     </option>
                   ))}
@@ -712,8 +712,8 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                     onChange={(event) => setNature(event.target.value as any)}
                     className="w-full p-2 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-800 rounded-lg text-sm text-gray-900 dark:text-gray-100"
                   >
-                    <option value="variable" className="dark:bg-gray-900">Variavel</option>
-                    <option value="fixed" className="dark:bg-gray-900">Fixo</option>
+                    <option value="variable" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Variavel</option>
+                    <option value="fixed" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Fixo</option>
                   </select>
                 </div>
                 <div className="space-y-1">
@@ -723,10 +723,10 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                     onChange={(event) => setRecurrence(event.target.value as any)}
                     className="w-full p-2 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-800 rounded-lg text-sm text-gray-900 dark:text-gray-100"
                   >
-                    <option value="none" className="dark:bg-gray-900">Nenhuma</option>
-                    <option value="monthly" className="dark:bg-gray-900">Mensal</option>
-                    <option value="weekly" className="dark:bg-gray-900">Semanal</option>
-                    <option value="yearly" className="dark:bg-gray-900">Anual</option>
+                    <option value="none" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Nenhuma</option>
+                    <option value="monthly" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Mensal</option>
+                    <option value="weekly" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Semanal</option>
+                    <option value="yearly" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Anual</option>
                   </select>
                 </div>
               </div>
@@ -737,12 +737,12 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                   onChange={(event) => setPaymentMethod(event.target.value as Transaction['paymentMethod'])}
                   className="w-full p-2 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-800 rounded-lg text-sm text-gray-900 dark:text-gray-100"
                 >
-                  <option value="pix" className="dark:bg-gray-900">PIX</option>
-                  <option value="credito" className="dark:bg-gray-900">Cartao de Credito</option>
-                  <option value="debito" className="dark:bg-gray-900">Cartao de Debito</option>
-                  <option value="dinheiro" className="dark:bg-gray-900">Dinheiro</option>
-                  <option value="boleto" className="dark:bg-gray-900">Boleto</option>
-                  <option value="transferencia" className="dark:bg-gray-900">Transferencia</option>
+                  <option value="pix" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">PIX</option>
+                  <option value="credito" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Cartao de Credito</option>
+                  <option value="debito" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Cartao de Debito</option>
+                  <option value="dinheiro" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Dinheiro</option>
+                  <option value="boleto" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Boleto</option>
+                  <option value="transferencia" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Transferencia</option>
                 </select>
               </div>
 
@@ -757,7 +757,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                         className="w-full p-2 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-800 rounded-lg text-sm text-gray-900 dark:text-gray-300"
                       >
                         {creditCards.map((card) => (
-                          <option key={card.id} value={card.id} className="dark:bg-gray-900">
+                          <option key={card.id} value={card.id} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
                             {card.name} - Fecha {card.closingDay} / Vence {card.dueDay}
                           </option>
                         ))}

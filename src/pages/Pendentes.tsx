@@ -131,12 +131,12 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
             onChange={(event) => updateReminderSettings({ daysBefore: Number(event.target.value) })}
             className="p-2 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
           >
-            <option value="0">No dia do vencimento</option>
-            <option value="1">1 dia antes</option>
-            <option value="2">2 dias antes</option>
-            <option value="3">3 dias antes</option>
-            <option value="5">5 dias antes</option>
-            <option value="7">7 dias antes</option>
+            <option value="0" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">No dia do vencimento</option>
+            <option value="1" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">1 dia antes</option>
+            <option value="2" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">2 dias antes</option>
+            <option value="3" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">3 dias antes</option>
+            <option value="5" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">5 dias antes</option>
+            <option value="7" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">7 dias antes</option>
           </select>
           <button
             onClick={() => void requestNotificationPermission()}
