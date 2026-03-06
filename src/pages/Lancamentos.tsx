@@ -2,9 +2,14 @@
 import { useAppStore } from '../store';
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Filter, Search, Trash2, Edit2, Calendar as CalendarIcon, Tag, CreditCard, CheckCircle, Clock, X, HandCoins, Ban, RefreshCcw } from 'lucide-react';
+import { Filter, Search, Trash2, Edit2, Calendar as CalendarIcon, Tag, CreditCard, CheckCircle, Clock, X, HandCoins, Ban, RefreshCcw, AlertTriangle } from 'lucide-react';
 import { CategoryIcon } from '../components/CategoryIcon';
 import { Transaction } from '../types';
+
+interface ConfirmAction {
+  message: string;
+  onConfirm: () => void;
+}
 
 export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ onEdit }) => {
   const {
@@ -24,6 +29,7 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
   const [showRenegotiate, setShowRenegotiate] = useState(false);
   const [renegotiateCount, setRenegotiateCount] = useState('3');
   const [renegotiateAmount, setRenegotiateAmount] = useState('');
+  const [confirmAction, setConfirmAction] = useState<ConfirmAction | null>(null);
 
   const toggleStatus = (transaction: Transaction) => {
     if (!canEdit) return;
@@ -231,9 +237,10 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
                                 onClick={(event) => {
                                   event.stopPropagation();
                                   if (!canEdit) return;
-                                  if (window.confirm('Excluir este lancamento pendente?')) {
-                                    deleteTransaction(transaction.id);
-                                  }
+                                  setConfirmAction({
+                                    message: 'Excluir este lancamento pendente?',
+                                    onConfirm: () => deleteTransaction(transaction.id),
+                                  });
                                 }}
                                 disabled={!canEdit}
                                 className="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 text-xs font-semibold hover:bg-rose-100 transition-colors disabled:opacity-50"
@@ -264,6 +271,7 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
         )}
       </div>
 
+      {/* Detail Modal */}
       {selectedTx && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="bg-white rounded-3xl w-full max-w-sm shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
@@ -376,10 +384,13 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
                           <button
                             onClick={() => {
                               if (!canEdit || futureInstallments.length === 0) return;
-                              if (window.confirm('Cancelar todas as parcelas futuras deste grupo?')) {
-                                cancelFutureInstallments(selectedTx.id);
-                                setSelectedTx(null);
-                              }
+                              setConfirmAction({
+                                message: 'Cancelar todas as parcelas futuras deste grupo?',
+                                onConfirm: () => {
+                                  cancelFutureInstallments(selectedTx.id);
+                                  setSelectedTx(null);
+                                },
+                              });
                             }}
                             disabled={!canEdit || futureInstallments.length === 0}
                             className="py-2 bg-rose-50 text-rose-700 rounded-lg text-xs font-semibold flex items-center justify-center disabled:opacity-50"
@@ -478,10 +489,13 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
                       <button
                         onClick={() => {
                           if (!canEdit) return;
-                          if (window.confirm('Tem certeza que deseja excluir este lancamento?')) {
-                            deleteTransaction(selectedTx.id);
-                            setSelectedTx(null);
-                          }
+                          setConfirmAction({
+                            message: 'Tem certeza que deseja excluir este lancamento?',
+                            onConfirm: () => {
+                              deleteTransaction(selectedTx.id);
+                              setSelectedTx(null);
+                            },
+                          });
                         }}
                         disabled={!canEdit}
                         className="py-3 bg-rose-50 text-rose-600 rounded-xl font-semibold text-sm flex items-center justify-center hover:bg-rose-100 transition-colors disabled:opacity-50"
@@ -494,6 +508,37 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
                 </>
               );
             })()}
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {confirmAction && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl w-full max-w-xs shadow-2xl p-6 space-y-4 animate-in zoom-in-95 duration-150">
+            <div className="flex flex-col items-center text-center space-y-2">
+              <div className="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center">
+                <AlertTriangle size={24} className="text-rose-600" />
+              </div>
+              <p className="text-sm font-medium text-gray-800">{confirmAction.message}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => setConfirmAction(null)}
+                className="py-2.5 bg-gray-100 text-gray-700 rounded-xl font-semibold text-sm hover:bg-gray-200 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => {
+                  confirmAction.onConfirm();
+                  setConfirmAction(null);
+                }}
+                className="py-2.5 bg-rose-600 text-white rounded-xl font-semibold text-sm hover:bg-rose-700 transition-colors"
+              >
+                Excluir
+              </button>
+            </div>
           </div>
         </div>
       )}
