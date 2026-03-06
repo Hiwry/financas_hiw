@@ -97,4 +97,6 @@ export interface AppState {
   categoryGoals: CategoryGoal[];
   household: HouseholdSettings;
   skippedOccurrences: Record<string, string[]>;
+  defaultPaymentMethod?: PaymentMethod;
+  defaultAccount?: string;
 }

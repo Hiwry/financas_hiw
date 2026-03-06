@@ -395,6 +395,48 @@ export const Categorias: React.FC = () => {
         </div>
       </div>
 
+      {/* Default Settings Section */}
+      <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-3">
+        <p className="text-sm font-semibold text-gray-700 flex items-center">
+          <Save size={15} className="mr-1.5 text-indigo-500" />
+          Configuracoes padrao de lancamento
+        </p>
+        <p className="text-xs text-gray-500">
+          Opcoes selecionadas automaticamente ao criar novos lancamentos.
+        </p>
+        
+        <div className="grid grid-cols-1 gap-4 pt-1">
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Forma de Pagamento</label>
+            <select
+              value={useAppStore().defaultPaymentMethod}
+              onChange={(e) => useAppStore().setDefaultPaymentMethod(e.target.value as any)}
+              className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none"
+            >
+              <option value="pix">PIX</option>
+              <option value="credito">Cartao de Credito</option>
+              <option value="debito">Cartao de Debito</option>
+              <option value="dinheiro">Dinheiro</option>
+              <option value="boleto">Boleto</option>
+              <option value="transferencia">Transferencia</option>
+            </select>
+          </div>
+          
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Conta</label>
+            <select
+              value={useAppStore().defaultAccount}
+              onChange={(e) => useAppStore().setDefaultAccount(e.target.value)}
+              className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none"
+            >
+              {accounts.map((acc) => (
+                <option key={acc} value={acc}>{acc}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+
       <div className="space-y-4">
         {categories.map((category) => (
           <div key={category.id} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">

@@ -7,6 +7,7 @@ import {
   CreditCard,
   CreditCardInvoicePayment,
   HouseholdMember,
+  PaymentMethod,
   ReminderSettings,
   Transaction,
 } from './types';
@@ -189,6 +190,8 @@ interface AppContextType extends AppState {
   addHouseholdMember: (name: string, role: HouseholdMember['role']) => void;
   updateHouseholdMember: (member: HouseholdMember) => void;
   deleteHouseholdMember: (memberId: string) => void;
+  setDefaultPaymentMethod: (method: PaymentMethod) => void;
+  setDefaultAccount: (account: string) => void;
   replaceState: (next: AppState) => void;
   resetData: () => void;
 }
@@ -550,6 +553,8 @@ const normalizeCoreState = (value: Partial<AppState>): AppState => {
     categoryGoals,
     household,
     skippedOccurrences: value.skippedOccurrences || {},
+    defaultPaymentMethod: value.defaultPaymentMethod || 'pix',
+    defaultAccount: value.defaultAccount || accounts[0] || 'Conta',
   };
 };
 
@@ -1146,6 +1151,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       };
     });
   };
+  
+  const setDefaultPaymentMethod = (method: PaymentMethod) => {
+    editState((prev) => ({ ...prev, defaultPaymentMethod: method }));
+  };
+
+  const setDefaultAccount = (account: string) => {
+    editState((prev) => ({ ...prev, defaultAccount: account }));
+  };
 
   const replaceState = (next: AppState) => {
     setState(withStateNormalization(next));
@@ -1189,6 +1202,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         addHouseholdMember,
         updateHouseholdMember,
         deleteHouseholdMember,
+        setDefaultPaymentMethod,
+        setDefaultAccount,
         replaceState,
         resetData,
       }}

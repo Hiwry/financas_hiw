@@ -59,6 +59,8 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
     accounts,
     creditCards,
     canEdit,
+    defaultPaymentMethod,
+    defaultAccount,
   } = useAppStore();
   const isNativePlatform = Capacitor.isNativePlatform();
 
@@ -75,8 +77,10 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
   const [categoryId, setCategoryId] = useState(
     editTransaction?.categoryId || categories.find((category) => category.type === (editTransaction?.type || 'expense'))?.id || ''
   );
-  const [paymentMethod, setPaymentMethod] = useState<Transaction['paymentMethod']>(editTransaction?.paymentMethod || 'pix');
-  const [account, setAccount] = useState(editTransaction?.account || accounts[0]);
+  const [paymentMethod, setPaymentMethod] = useState<Transaction['paymentMethod']>(
+    editTransaction?.paymentMethod || defaultPaymentMethod || 'pix'
+  );
+  const [account, setAccount] = useState(editTransaction?.account || defaultAccount || accounts[0]);
   const [description, setDescription] = useState(editTransaction?.description || '');
   const [subcategoryId, setSubcategoryId] = useState(editTransaction?.subcategoryId || '');
   const [tagsInput, setTagsInput] = useState(editTransaction?.tags?.join(', ') || '');
