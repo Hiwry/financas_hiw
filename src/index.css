@@ -24,5 +24,34 @@
 body {
   font-family: 'Inter', sans-serif;
   -webkit-tap-highlight-color: transparent;
-  background-color: #f9fafb;
+  @apply bg-gray-50 text-gray-900 transition-colors duration-200;
+}
+
+.dark body {
+  @apply bg-gray-950 text-gray-50;
+}
+
+/* Global utility for consistent card backgrounds in dark mode */
+.dark .bg-white {
+  @apply bg-gray-900 border-gray-800;
+}
+
+.dark .text-gray-900 {
+  @apply text-gray-100;
+}
+
+.dark .text-gray-700, .dark .text-gray-600 {
+  @apply text-gray-300;
+}
+
+.dark .text-gray-500 {
+  @apply text-gray-400;
+}
+
+.dark .bg-gray-50, .dark .bg-gray-100 {
+  @apply bg-gray-800/50;
+}
+
+.dark .border-gray-100, .dark .border-gray-200 {
+  @apply border-gray-800;
 }

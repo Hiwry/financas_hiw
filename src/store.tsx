@@ -192,6 +192,7 @@ interface AppContextType extends AppState {
   deleteHouseholdMember: (memberId: string) => void;
   setDefaultPaymentMethod: (method: PaymentMethod) => void;
   setDefaultAccount: (account: string) => void;
+  toggleTheme: () => void;
   replaceState: (next: AppState) => void;
   resetData: () => void;
 }
@@ -551,6 +552,7 @@ const normalizeCoreState = (value: Partial<AppState>): AppState => {
     skippedOccurrences: value.skippedOccurrences || {},
     defaultPaymentMethod: value.defaultPaymentMethod || 'pix',
     defaultAccount: value.defaultAccount || accounts[0] || 'Conta',
+    theme: value.theme || 'light',
   };
 };
 
@@ -630,6 +632,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    // Apply theme to document
+    if (state.theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, [state]);
 
   useEffect(() => {
@@ -1156,6 +1164,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     editState((prev) => ({ ...prev, defaultAccount: account }));
   };
 
+  const toggleTheme = () => {
+    editState((prev) => ({ ...prev, theme: prev.theme === 'dark' ? 'light' : 'dark' }));
+  };
+
   const replaceState = (next: AppState) => {
     setState(withStateNormalization(next));
   };
@@ -1200,6 +1212,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         deleteHouseholdMember,
         setDefaultPaymentMethod,
         setDefaultAccount,
+        toggleTheme,
         replaceState,
         resetData,
       }}

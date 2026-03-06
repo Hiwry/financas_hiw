@@ -1,9 +1,10 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useAppStore, suggestCategoryIcon } from '../store';
 import { CategoryIcon, availableIcons } from '../components/CategoryIcon';
-import { Download, Edit2, FileDown, Save, Search, Trash2, Upload, Wand2, X, Users } from 'lucide-react';
+import {
+  Download, Edit2, FileDown, Save, Search, Trash2, Upload, Wand2, X, Users, Sun, Moon, AlertTriangle
+} from 'lucide-react';
 import { toLocalIsoDate } from '../utils/date';
-import { AlertTriangle } from 'lucide-react';
 
 interface ConfirmAction {
   message: string;
@@ -397,12 +398,21 @@ export const Categorias: React.FC = () => {
 
       {/* Default Settings Section */}
       <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-3">
-        <p className="text-sm font-semibold text-gray-700 flex items-center">
-          <Save size={15} className="mr-1.5 text-indigo-500" />
-          Configuracoes padrao de lancamento
+        <p className="text-sm font-semibold text-gray-700 flex items-center justify-between">
+          <span className="flex items-center">
+            <Save size={15} className="mr-1.5 text-indigo-500" />
+            Configuracoes e Tema
+          </span>
+          <button
+            onClick={() => useAppStore().toggleTheme()}
+            className="p-2 bg-gray-100 rounded-xl text-gray-600 hover:bg-gray-200 transition-colors"
+            title="Alternar tema"
+          >
+            {useAppStore().theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
         </p>
         <p className="text-xs text-gray-500">
-          Opcoes selecionadas automaticamente ao criar novos lancamentos.
+          Personalize sua experiencia e opcoes padrao.
         </p>
         
         <div className="grid grid-cols-1 gap-4 pt-1">
@@ -464,7 +474,7 @@ export const Categorias: React.FC = () => {
             {category.type === 'expense' && (
               <div className="mt-3 rounded-xl border border-gray-100 bg-gray-50 p-3 space-y-2">
                 <p className="text-[11px] uppercase tracking-wider font-semibold text-gray-500">Meta mensal por categoria</p>
-                <div className="grid grid-cols-[1fr_auto_auto] gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2">
                   <input
                     type="number"
                     min={0}
@@ -475,21 +485,23 @@ export const Categorias: React.FC = () => {
                     className="p-2 bg-white border border-gray-200 rounded-lg text-sm"
                     disabled={!canEdit}
                   />
-                  <button
-                    onClick={() => saveCategoryGoal(category.id)}
-                    disabled={!canEdit}
-                    className="px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold disabled:opacity-50 flex items-center"
-                  >
-                    <Save size={13} className="mr-1.5" />
-                    Salvar
-                  </button>
-                  <button
-                    onClick={() => clearCategoryGoal(category.id)}
-                    disabled={!canEdit}
-                    className="px-3 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 text-sm font-semibold disabled:opacity-50"
-                  >
-                    Limpar
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => saveCategoryGoal(category.id)}
+                      disabled={!canEdit}
+                      className="flex-1 sm:flex-none px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold disabled:opacity-50 flex items-center justify-center"
+                    >
+                      <Save size={13} className="mr-1.5" />
+                      Salvar
+                    </button>
+                    <button
+                      onClick={() => clearCategoryGoal(category.id)}
+                      disabled={!canEdit}
+                      className="flex-1 sm:flex-none px-3 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 text-sm font-semibold disabled:opacity-50"
+                    >
+                      Limpar
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
