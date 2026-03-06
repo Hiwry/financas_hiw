@@ -232,17 +232,43 @@ const inferSubcategory = (text: string): string => {
     .replace(/[0-9.,]/g, ' ')
     .split(/\s+/)
     .filter((word) => word.length > 2)
-    .slice(0, 3)
+    .slice(0, 2) // Reduzido para 2 palavras para ser mais conciso
     .join(' ')
     .trim();
 
-  return fallback || 'Geral';
+  const final = fallback || 'Geral';
+  return final.charAt(0).toUpperCase() + final.slice(1);
 };
 
 const inferDescription = (text: string): string => {
-  const cleaned = text.replace(/\s+/g, ' ').trim();
-  if (!cleaned) return 'Lancamento por voz';
-  return cleaned.length > 60 ? `${cleaned.slice(0, 57)}...` : cleaned;
+  const n = normalize(text);
+  
+  // Limpeza de verbos e conectores comuns para deixar o título "limpo"
+  const unwantedStarted = [
+    'paguei', 'comprei', 'pago', 'compra', 'gastamos', 'gastei', 
+    'recebi', 'ganhei', 'vendi', 'entrada', 'saida', 'valor', 'de', 'do', 'da', 'no', 'na'
+  ];
+
+  let cleaned = text.trim();
+
+  // Se o texto começa com algum termo indesejado, removemos
+  const words = cleaned.split(/\s+/);
+  while (words.length > 1 && unwantedStarted.includes(normalize(words[0]))) {
+    words.shift();
+  }
+  cleaned = words.join(' ');
+
+  // Remove termos de pagamento do título se estiverem no final ou meio
+  cleaned = cleaned
+    .replace(/\b(?:no|na|com|pelo|via)\s+(?:pix|cartao|credito|debito|dinheiro|boleto)\b/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  if (!cleaned || cleaned.length < 2) return 'Lancamento';
+
+  // Capitaliza primeira letra
+  const final = cleaned.length > 50 ? `${cleaned.slice(0, 47)}...` : cleaned;
+  return final.charAt(0).toUpperCase() + final.slice(1);
 };
 
 const categoryKeywordMap: Array<{ keywords: string[]; categoryName: string }> = [
