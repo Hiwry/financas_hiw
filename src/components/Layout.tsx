@@ -31,7 +31,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
     { id: 'lancamentos', label: 'Extrato', icon: List },
     { id: 'adicionar', label: 'Adicionar', icon: PlusCircle, isMain: true },
     { id: 'pendentes', label: 'A Receber', icon: Clock },
-    { id: 'planejar', label: 'Perfeito', icon: Target },
+    { id: 'planejar', label: 'Objetivos', icon: Target },
   ];
 
   return (

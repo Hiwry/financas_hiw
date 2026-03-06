@@ -325,14 +325,42 @@ const buildTransactionFromParsed = (
   const inferredType = inferTypeFromText(text);
   const type = parsed.type === 'income' || parsed.type === 'expense' ? parsed.type : inferredType;
   const amount = typeof parsed.amount === 'number' && parsed.amount > 0 ? parsed.amount : inferAmountFromText(text);
-  const hasRelativeDateWord = /amanh[aã]|ontem|anteontem|hoje/i.test(text);
   
-  // Se tiver palavra relativa, preferir inferência local.
-  // Se não, confiar no AI (que agora forcei a retornar todayDate se não achar nada).
-  // Se ambos falharem, força a data de hoje.
-  let date = hasRelativeDateWord
-    ? inferDateFromText(text)
-    : (typeof parsed.date === 'string' && parsed.date.trim().length >= 10 ? parsed.date.slice(0, 10) : inferDateFromText(text));
+  // Detecta se o texto do usuário contém QUALQUER referência a data
+  const textContainsAnyDateReference = (input: string): boolean => {
+    const n = normalize(input);
+    // Palavras relativas
+    if (/amanh[aã]|ontem|anteontem|hoje/i.test(input)) return true;
+    // Padrões numéricos tipo DD/MM ou DD-MM
+    if (/\b\d{1,2}[\/\-]\d{1,2}\b/.test(input)) return true;
+    // Nome de mês (janeiro, fev, março, etc.)
+    if (Object.keys(monthMap).some((m) => n.includes(m))) return true;
+    // "dia 5", "dia 15" etc.
+    if (/\bdia\s+\d{1,2}\b/i.test(input)) return true;
+    return false;
+  };
+
+  // Se o texto NÃO tem NENHUMA referência a data → usa data de hoje, ignorando a IA
+  // Se tem referência relativa (hoje, ontem, amanhã) → usa inferência local
+  // Se tem referência específica (DD/MM, nome mês) → confia na inferência local primeiro
+  let date: string;
+  if (!textContainsAnyDateReference(text)) {
+    // Sem data mencionada → SEMPRE hoje
+    date = toLocalIsoDate();
+  } else if (/amanh[aã]|ontem|anteontem|hoje/i.test(text)) {
+    // Palavra relativa → inferência local (mais confiável que a IA)
+    date = inferDateFromText(text);
+  } else {
+    // Tem alguma referência de data específica → tenta inferência local primeiro, depois AI
+    const localDate = inferDateFromText(text);
+    const isLocalToday = localDate === toLocalIsoDate();
+    // Se a inferência local caiu no fallback (hoje), prefere a data do AI se válida
+    if (isLocalToday && typeof parsed.date === 'string' && parsed.date.trim().length >= 10) {
+      date = parsed.date.slice(0, 10);
+    } else {
+      date = localDate;
+    }
+  }
   
   if (!date || date.length < 10) {
     date = toLocalIsoDate();
