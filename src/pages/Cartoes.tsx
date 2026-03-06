@@ -190,13 +190,13 @@ export const Cartoes: React.FC = () => {
             value={newName}
             onChange={(event) => setNewName(event.target.value)}
             placeholder="Nome do cartao"
-            className="p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+            className="p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           />
           <input
             value={newAccount}
             onChange={(event) => setNewAccount(event.target.value)}
             placeholder="Conta vinculada"
-            className="p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+            className="p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           />
           <input
             type="number"
@@ -205,7 +205,7 @@ export const Cartoes: React.FC = () => {
             value={newClosingDay}
             onChange={(event) => setNewClosingDay(event.target.value)}
             placeholder="Fechamento"
-            className="p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+            className="p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           />
           <input
             type="number"
@@ -214,7 +214,7 @@ export const Cartoes: React.FC = () => {
             value={newDueDay}
             onChange={(event) => setNewDueDay(event.target.value)}
             placeholder="Vencimento"
-            className="p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+            className="p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           />
           <input
             type="number"
@@ -223,7 +223,7 @@ export const Cartoes: React.FC = () => {
             value={newLimit}
             onChange={(event) => setNewLimit(event.target.value)}
             placeholder="Limite"
-            className="p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+            className="p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           />
           <input
             type="number"
@@ -232,7 +232,7 @@ export const Cartoes: React.FC = () => {
             value={newInterest}
             onChange={(event) => setNewInterest(event.target.value)}
             placeholder="Juros % am"
-            className="p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+            className="p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
           />
         </div>
         <button
@@ -290,27 +290,14 @@ export const Cartoes: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
-                    <p className="text-[11px] uppercase tracking-wider text-gray-500 dark:text-gray-400 font-semibold flex items-center">
-                      <Wallet size={12} className="mr-1 text-gray-400 dark:text-gray-500" />
-                      Limite disponivel
-                    </p>
-                    <p className={`font-bold text-lg ${isNegative ? 'text-rose-600 dark:text-rose-400' : 'text-gray-900 dark:text-gray-100'}`}>
-                      {formatCurrency(available)}
-                    </p>
-                  </div>
-                  <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3 space-y-1">
-                    <p className="text-[11px] uppercase tracking-wider text-gray-500 dark:text-gray-400 font-semibold">Configuracao</p>
-                    <p className="text-sm text-gray-800 dark:text-gray-200 flex items-center">
-                      <Calendar size={12} className="mr-1.5 text-indigo-500 dark:text-indigo-400" />
-                      Fecha dia {card.closingDay} / vence dia {card.dueDay}
-                    </p>
-                    <p className="text-sm text-gray-800 dark:text-gray-200 flex items-center">
-                      <Percent size={12} className="mr-1.5 text-indigo-500 dark:text-indigo-400" />
-                      {card.interestRateMonthly}% a.m.
-                    </p>
-                  </div>
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-3">
+                  <p className="text-[11px] uppercase tracking-wider text-gray-500 dark:text-gray-400 font-semibold flex items-center">
+                    <Wallet size={12} className="mr-1 text-gray-400 dark:text-gray-500" />
+                    Limite disponivel
+                  </p>
+                  <p className={`font-bold text-lg ${isNegative ? 'text-rose-600 dark:text-rose-400' : 'text-gray-900 dark:text-gray-100'}`}>
+                    {formatCurrency(available)}
+                  </p>
                 </div>
 
                 {editingCard?.id === card.id && (

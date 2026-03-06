@@ -129,7 +129,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
           <select
             value={String(reminderSettings.daysBefore)}
             onChange={(event) => updateReminderSettings({ daysBefore: Number(event.target.value) })}
-            className="p-2 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
+            className="p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
           >
             <option value="0" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">No dia do vencimento</option>
             <option value="1" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">1 dia antes</option>
@@ -338,7 +338,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
           <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 w-full max-w-sm shadow-2xl border border-transparent dark:border-gray-800 animate-in zoom-in-95 duration-200 relative">
             <button
               onClick={() => setEditingDueDateFor(null)}
-              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 bg-gray-50 dark:bg-gray-850 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
             >
               <X size={20} />
             </button>
@@ -352,7 +352,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
                   type="date"
                   value={tempDueDate}
                   onChange={(event) => setTempDueDate(event.target.value)}
-                  className="w-full p-3 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-indigo-500 text-gray-900 dark:text-gray-100 font-medium outline-none"
+                  className="w-full p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-indigo-500 text-gray-900 dark:text-gray-100 font-medium outline-none"
                 />
               </div>
 

@@ -455,7 +455,7 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
                                 max={48}
                                 value={renegotiateCount}
                                 onChange={(event) => setRenegotiateCount(event.target.value)}
-                                className="p-2 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-700 rounded-lg text-xs text-gray-900 dark:text-gray-100"
+                                className="p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-xs text-gray-900 dark:text-gray-100"
                                 placeholder="Qtd parcelas"
                               />
                               <input
@@ -464,7 +464,7 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
                                 step="0.01"
                                 value={renegotiateAmount}
                                 onChange={(event) => setRenegotiateAmount(event.target.value)}
-                                className="p-2 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-700 rounded-lg text-xs text-gray-900 dark:text-gray-100"
+                                className="p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-xs text-gray-900 dark:text-gray-100"
                                 placeholder="Total renegociado"
                               />
                             </div>

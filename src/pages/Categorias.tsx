@@ -419,7 +419,7 @@ export const Categorias: React.FC = () => {
             <select
               value={useAppStore().defaultPaymentMethod}
               onChange={(e) => useAppStore().setDefaultPaymentMethod(e.target.value as any)}
-              className="w-full p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
+              className="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
             >
               <option value="pix" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">PIX</option>
               <option value="credito" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">Cartao de Credito</option>
@@ -435,7 +435,7 @@ export const Categorias: React.FC = () => {
             <select
               value={useAppStore().defaultAccount}
               onChange={(e) => useAppStore().setDefaultAccount(e.target.value)}
-              className="w-full p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
+              className="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
             >
               {accounts.map((acc) => (
                 <option key={acc} value={acc} className="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">{acc}</option>
