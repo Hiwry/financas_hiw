@@ -63,7 +63,7 @@ serve(async (request) => {
       - account: tente identificar entre [${accountNames}].
       - recurrence: none, monthly, weekly, biweekly ou yearly.
       - status: paid ou pending.
-      - description: descricao curta e direta do gasto/ganho. Nunca vazia.
+      - description: titulo LIMPO e CURTO do lancamento (ex: "Aluguel", "Conta de Internet", "Uber para o trabalho"). NAO repita a frase inteira do usuario. Maximo 30 caracteres. Nunca vazia.
       `;
 
       const response = await ai.models.generateContent({
