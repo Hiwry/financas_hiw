@@ -168,13 +168,13 @@ export const Resumo: React.FC = () => {
       {/* Header & Filters */}
       <div className="flex flex-col space-y-3">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-          <h2 className="text-2xl font-bold text-gray-800">Resumo</h2>
-          <div className="flex space-x-1 bg-gray-200 p-1 rounded-lg overflow-x-auto hide-scrollbar w-full sm:w-auto">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Resumo</h2>
+          <div className="flex space-x-1 bg-gray-200 dark:bg-gray-800 p-1 rounded-lg overflow-x-auto hide-scrollbar w-full sm:w-auto">
             {['hoje', '7dias', 'mes', 'custom'].map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f as any)}
-                className={`flex-1 sm:flex-none px-3 py-1.5 text-sm rounded-md font-medium transition-colors whitespace-nowrap text-center ${filter === f ? 'bg-white shadow text-indigo-600' : 'text-gray-600 hover:text-gray-900'}`}
+                className={`flex-1 sm:flex-none px-3 py-1.5 text-sm rounded-md font-medium transition-colors whitespace-nowrap text-center ${filter === f ? 'bg-white dark:bg-gray-700 shadow text-indigo-600 dark:text-indigo-400' : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'}`}
               >
                 {f === 'hoje' ? 'Hoje' : f === '7dias' ? '7 Dias' : f === 'mes' ? 'Mês' : 'Custom'}
               </button>
@@ -183,19 +183,19 @@ export const Resumo: React.FC = () => {
         </div>
         
         {filter === 'custom' && (
-          <div className="flex space-x-2 items-center bg-white p-2 rounded-xl shadow-sm border border-gray-100 animate-in slide-in-from-top-2 duration-200">
+          <div className="flex space-x-2 items-center bg-white dark:bg-gray-900 p-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 animate-in slide-in-from-top-2 duration-200">
             <input 
               type="date" 
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
-              className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 text-gray-900 dark:text-gray-100"
             />
             <span className="text-gray-400 text-sm">até</span>
             <input 
               type="date" 
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="flex-1 bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-1.5 text-sm focus:ring-2 focus:ring-indigo-500 text-gray-900 dark:text-gray-100"
             />
           </div>
         )}
@@ -225,52 +225,52 @@ export const Resumo: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between">
-            <div className="flex items-center space-x-2 text-emerald-600 mb-2">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col justify-between">
+            <div className="flex items-center space-x-2 text-emerald-600 dark:text-emerald-500 mb-2">
               <ArrowUpCircle size={18} />
               <span className="text-sm font-semibold">Receitas</span>
             </div>
-            <div className="text-xl font-bold text-gray-800">{formatCurrency(income)}</div>
+            <div className="text-xl font-bold text-gray-800 dark:text-gray-100">{formatCurrency(income)}</div>
           </div>
-          <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex flex-col justify-between">
-            <div className="flex items-center space-x-2 text-rose-600 mb-2">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 flex flex-col justify-between">
+            <div className="flex items-center space-x-2 text-rose-600 dark:text-rose-500 mb-2">
               <ArrowDownCircle size={18} />
               <span className="text-sm font-semibold">Despesas</span>
             </div>
-            <div className="text-xl font-bold text-gray-800">{formatCurrency(expense)}</div>
+            <div className="text-xl font-bold text-gray-800 dark:text-gray-100">{formatCurrency(expense)}</div>
           </div>
         </div>
       </div>
 
       {/* Pending Summary Card */}
       {(incomePending > 0 || expensePending > 0) && (
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <Clock size={18} className="mr-2 text-indigo-500" />
+        <div className="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center">
+            <Clock size={18} className="mr-2 text-indigo-500 dark:text-indigo-400" />
             Lançamentos Pendentes
           </h3>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-emerald-50 rounded-xl p-4 border border-emerald-100 flex flex-col justify-between">
-              <div className="flex items-center space-x-2 text-emerald-600 mb-2">
+            <div className="bg-emerald-50 dark:bg-emerald-900/20 rounded-xl p-4 border border-emerald-100 dark:border-emerald-800/50 flex flex-col justify-between">
+              <div className="flex items-center space-x-2 text-emerald-600 dark:text-emerald-400 mb-2">
                 <ArrowUpCircle size={16} />
                 <span className="text-sm font-semibold">A Receber</span>
               </div>
-              <div className="text-lg font-bold text-emerald-700">{formatCurrency(incomePending)}</div>
+              <div className="text-lg font-bold text-emerald-700 dark:text-emerald-300">{formatCurrency(incomePending)}</div>
             </div>
-            <div className="bg-rose-50 rounded-xl p-4 border border-rose-100 flex flex-col justify-between">
-              <div className="flex items-center space-x-2 text-rose-600 mb-2">
+            <div className="bg-rose-50 dark:bg-rose-900/20 rounded-xl p-4 border border-rose-100 dark:border-rose-800/50 flex flex-col justify-between">
+              <div className="flex items-center space-x-2 text-rose-600 dark:text-rose-400 mb-2">
                 <ArrowDownCircle size={16} />
                 <span className="text-sm font-semibold">A Pagar</span>
               </div>
-              <div className="text-lg font-bold text-rose-700">{formatCurrency(expensePending)}</div>
+              <div className="text-lg font-bold text-rose-700 dark:text-rose-300">{formatCurrency(expensePending)}</div>
             </div>
           </div>
         </div>
       )}
 
       {categoryGoalAlerts.length > 0 && (
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Alertas de Metas (tempo real)</h3>
+        <div className="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">Alertas de Metas (tempo real)</h3>
           <div className="space-y-3">
             {categoryGoalAlerts.map((alert) => (
               <div
@@ -280,18 +280,18 @@ export const Resumo: React.FC = () => {
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <p className="text-sm font-semibold text-gray-800">{alert.categoryName}</p>
-                  <p className={`text-xs font-bold ${alert.isCritical ? 'text-rose-700' : 'text-amber-700'}`}>
+                  <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{alert.categoryName}</p>
+                  <p className={`text-xs font-bold ${alert.isCritical ? 'text-rose-700 dark:text-rose-400' : 'text-amber-700 dark:text-amber-400'}`}>
                     {(alert.progress * 100).toFixed(0)}%
                   </p>
                 </div>
-                <div className="w-full bg-white/80 rounded-full h-2 mb-2">
+                <div className="w-full bg-white/80 dark:bg-gray-800 rounded-full h-2 mb-2">
                   <div
                     className={`h-2 rounded-full ${alert.isCritical ? 'bg-rose-500' : 'bg-amber-500'}`}
                     style={{ width: `${Math.min(alert.progress * 100, 100)}%` }}
                   />
                 </div>
-                <p className="text-xs text-gray-700">
+                <p className="text-xs text-gray-700 dark:text-gray-400">
                   {formatCurrency(alert.spent)} de {formatCurrency(alert.monthlyLimit)}
                 </p>
               </div>
@@ -301,16 +301,16 @@ export const Resumo: React.FC = () => {
       )}
 
       {/* Fixed vs Variable */}
-      <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-          <Calendar size={18} className="mr-2 text-indigo-500" />
+      <div className="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center">
+          <Calendar size={18} className="mr-2 text-indigo-500 dark:text-indigo-400" />
           Natureza das Despesas
         </h3>
         <div className="space-y-4">
           <div>
             <div className="flex justify-between text-sm mb-1">
-              <span className="text-gray-600">Fixas</span>
-              <span className="font-medium text-gray-900">{formatCurrency(fixedExpense)}</span>
+              <span className="text-gray-600 dark:text-gray-400">Fixas</span>
+              <span className="font-medium text-gray-900 dark:text-gray-100">{formatCurrency(fixedExpense)}</span>
             </div>
             <div className="w-full bg-gray-100 rounded-full h-2">
               <div className="bg-indigo-500 h-2 rounded-full" style={{ width: expense > 0 ? `${(fixedExpense / expense) * 100}%` : '0%' }}></div>
@@ -318,10 +318,10 @@ export const Resumo: React.FC = () => {
           </div>
           <div>
             <div className="flex justify-between text-sm mb-1">
-              <span className="text-gray-600">Variáveis</span>
-              <span className="font-medium text-gray-900">{formatCurrency(variableExpense)}</span>
+              <span className="text-gray-600 dark:text-gray-400">Variáveis</span>
+              <span className="font-medium text-gray-900 dark:text-gray-100">{formatCurrency(variableExpense)}</span>
             </div>
-            <div className="w-full bg-gray-100 rounded-full h-2">
+            <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2">
               <div className="bg-amber-500 h-2 rounded-full" style={{ width: expense > 0 ? `${(variableExpense / expense) * 100}%` : '0%' }}></div>
             </div>
           </div>
@@ -330,9 +330,9 @@ export const Resumo: React.FC = () => {
 
       {/* Balance Evolution Chart */}
       {balanceEvolution.length > 0 && (
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <TrendingUp size={18} className="mr-2 text-indigo-500" />
+        <div className="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center">
+            <TrendingUp size={18} className="mr-2 text-indigo-500 dark:text-indigo-400" />
             Evolução do Saldo
           </h3>
           <div className="h-48">
@@ -356,7 +356,13 @@ export const Resumo: React.FC = () => {
                 <Tooltip 
                   formatter={(value: number) => [formatCurrency(value), 'Saldo']}
                   labelStyle={{ color: '#64748b', fontSize: 12 }}
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  contentStyle={{ 
+                    borderRadius: '12px', 
+                    border: 'none', 
+                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+                    backgroundColor: useAppStore().theme === 'dark' ? '#1f2937' : '#fff',
+                    color: useAppStore().theme === 'dark' ? '#f3f4f6' : '#1f2937'
+                  }}
                 />
                 <Line 
                   type="monotone" 
@@ -374,9 +380,9 @@ export const Resumo: React.FC = () => {
 
       {/* Top Categories Chart */}
       {expensesByCategory.length > 0 && (
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <PieChartIcon size={18} className="mr-2 text-indigo-500" />
+        <div className="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-800">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center">
+            <PieChartIcon size={18} className="mr-2 text-indigo-500 dark:text-indigo-400" />
             Gastos por Categoria
           </h3>
           <div className="h-64">
@@ -404,9 +410,9 @@ export const Resumo: React.FC = () => {
               <div key={i} className="flex justify-between items-center text-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: cat.color }}></div>
-                  <span className="text-gray-700">{cat.name}</span>
+                  <span className="text-gray-700 dark:text-gray-300">{cat.name}</span>
                 </div>
-                <span className="font-medium text-gray-900">{formatCurrency(cat.value)}</span>
+                <span className="font-medium text-gray-900 dark:text-gray-100">{formatCurrency(cat.value)}</span>
               </div>
             ))}
           </div>

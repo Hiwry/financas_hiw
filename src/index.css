@@ -24,16 +24,20 @@
 body {
   font-family: 'Inter', sans-serif;
   -webkit-tap-highlight-color: transparent;
-  @apply bg-gray-50 text-gray-900 transition-colors duration-200;
+  @apply bg-gray-50 text-gray-900 transition-colors duration-300;
 }
 
+/* Global dark mode overrides for premium feel */
 .dark body {
   @apply bg-gray-950 text-gray-50;
 }
 
-/* Global utility for consistent card backgrounds in dark mode */
 .dark .bg-white {
-  @apply bg-gray-900 border-gray-800;
+  @apply bg-gray-900 border-gray-800 shadow-none;
+}
+
+.dark .bg-gray-50, .dark .bg-gray-100 {
+  @apply bg-gray-800/40;
 }
 
 .dark .text-gray-900 {
@@ -48,10 +52,23 @@ body {
   @apply text-gray-400;
 }
 
-.dark .bg-gray-50, .dark .bg-gray-100 {
-  @apply bg-gray-800/50;
-}
-
 .dark .border-gray-100, .dark .border-gray-200 {
   @apply border-gray-800;
+}
+
+.dark input, .dark select, .dark textarea {
+  @apply bg-gray-800 border-gray-700 text-gray-100 placeholder-gray-500;
+}
+
+.dark .shadow-sm {
+  @apply shadow-none;
+}
+
+/* Ensure icons and other elements have visibility */
+.dark .text-indigo-600 {
+  @apply text-indigo-400;
+}
+
+.dark .bg-indigo-50 {
+  @apply bg-indigo-900/30 text-indigo-300;
 }

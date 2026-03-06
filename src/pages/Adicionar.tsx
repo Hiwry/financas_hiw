@@ -483,7 +483,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
   return (
     <div className="p-4 space-y-6 pb-24">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">{editTransaction ? 'Editar Lancamento' : 'Novo Lancamento'}</h2>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">{editTransaction ? 'Editar Lancamento' : 'Novo Lancamento'}</h2>
         {editTransaction && onCancelEdit && (
           <button onClick={onCancelEdit} className="p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors">
             <XCircle size={24} />
@@ -492,13 +492,13 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
       </div>
 
       {!editTransaction && (
-        <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl p-6 text-white shadow-xl flex flex-col items-center justify-center space-y-4 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-indigo-600 dark:to-purple-700 rounded-3xl p-6 text-white shadow-xl flex flex-col items-center justify-center space-y-4 relative overflow-hidden transition-all">
           <div className="absolute top-0 left-0 w-full h-full bg-white opacity-5 pointer-events-none" />
           <button
             onClick={toggleListening}
             disabled={isProcessing}
             className={`w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg ${
-              isListening ? 'bg-rose-500 animate-pulse scale-110' : 'bg-white text-indigo-600 hover:bg-indigo-50'
+              isListening ? 'bg-rose-500 animate-pulse scale-110' : 'bg-white dark:bg-gray-100 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-white'
             } ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             {isProcessing ? <Loader2 size={32} className="animate-spin" /> : isListening ? <Mic size={32} className="text-white" /> : <Mic size={32} />}
@@ -536,24 +536,24 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
       />
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 space-y-5">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-800 space-y-5 transition-colors">
           {!canEdit && (
             <div className="p-3 rounded-xl bg-amber-50 text-amber-700 text-sm font-medium border border-amber-200">
               Perfil atual em modo somente leitura.
             </div>
           )}
-          <div className="flex bg-gray-100 p-1 rounded-xl">
+          <div className="flex bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
             <button
               type="button"
               onClick={() => setType('expense')}
-              className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${type === 'expense' ? 'bg-white text-rose-600 shadow-sm' : 'text-gray-500'}`}
+              className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${type === 'expense' ? 'bg-white dark:bg-gray-700 text-rose-600 dark:text-rose-400 shadow-sm' : 'text-gray-500 dark:text-gray-400'}`}
             >
               Despesa
             </button>
             <button
               type="button"
               onClick={() => setType('income')}
-              className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${type === 'income' ? 'bg-white text-emerald-600 shadow-sm' : 'text-gray-500'}`}
+              className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${type === 'income' ? 'bg-white dark:bg-gray-700 text-emerald-600 dark:text-emerald-400 shadow-sm' : 'text-gray-500 dark:text-gray-400'}`}
             >
               Receita
             </button>
@@ -567,9 +567,9 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                 value="paid"
                 checked={status === 'paid'}
                 onChange={() => setStatus('paid')}
-                className="w-4 h-4 text-indigo-600 focus:ring-indigo-500"
+                 className="w-4 h-4 text-indigo-600 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
               />
-              <span className="text-sm font-medium text-gray-700">{type === 'income' ? 'Recebido' : 'Pago'}</span>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{type === 'income' ? 'Recebido' : 'Pago'}</span>
             </label>
             <label className="flex items-center space-x-2 cursor-pointer">
               <input
@@ -578,15 +578,15 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                 value="pending"
                 checked={status === 'pending'}
                 onChange={() => setStatus('pending')}
-                className="w-4 h-4 text-indigo-600 focus:ring-indigo-500"
+                 className="w-4 h-4 text-indigo-600 focus:ring-indigo-500 dark:bg-gray-800 dark:border-gray-700"
               />
-              <span className="text-sm font-medium text-gray-700">{type === 'income' ? 'A Receber' : 'A Pagar'}</span>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{type === 'income' ? 'A Receber' : 'A Pagar'}</span>
             </label>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider flex items-center">
+              <label className="text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center">
                 <DollarSign size={12} className="mr-1" /> Valor
               </label>
               <input
@@ -595,7 +595,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                 required
                 value={amount}
                 onChange={(event) => setAmount(event.target.value)}
-                className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 font-semibold text-lg"
+                className="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 font-semibold text-lg text-gray-900 dark:text-gray-100"
                 placeholder="0,00"
               />
             </div>
@@ -608,7 +608,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                 required
                 value={date}
                 onChange={(event) => setDate(event.target.value)}
-                className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm"
+                className="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm text-gray-900 dark:text-gray-300"
               />
             </div>
           </div>
@@ -621,7 +621,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
               type="text"
               value={description}
               onChange={(event) => setDescription(event.target.value)}
-              className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm"
+              className="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm text-gray-900 dark:text-gray-100"
               placeholder="Ex: Almoco restaurante X"
             />
           </div>
@@ -634,7 +634,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
               <select
                 value={categoryId}
                 onChange={(event) => setCategoryId(event.target.value)}
-                className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm"
+                className="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm text-gray-900 dark:text-gray-300"
               >
                 {categories
                   .filter((category) => category.type === type)
@@ -659,7 +659,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                 <select
                   value={account}
                   onChange={(event) => setAccount(event.target.value)}
-                  className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm"
+                  className="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm text-gray-900 dark:text-gray-300"
                 >
                   {accounts.map((item) => (
                     <option key={item} value={item}>
@@ -680,7 +680,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                 type="text"
                 value={subcategoryId}
                 onChange={(event) => setSubcategoryId(event.target.value)}
-                className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm"
+                className="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm text-gray-900 dark:text-gray-100"
                 placeholder="Ex: Uber, Luz"
               />
             </div>
@@ -692,28 +692,28 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                 type="text"
                 value={tagsInput}
                 onChange={(event) => setTagsInput(event.target.value)}
-                className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm"
+                className="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 text-sm text-gray-900 dark:text-gray-100"
                 placeholder="Ex: viagem, ifood"
               />
             </div>
           </div>
 
           <details className="group">
-            <summary className="text-sm font-medium text-indigo-600 cursor-pointer list-none flex items-center">
+            <summary className="text-sm font-medium text-indigo-600 dark:text-indigo-400 cursor-pointer list-none flex items-center">
               <span className="mr-2">Opcoes Avancadas</span>
               <span className="transition group-open:rotate-180">▼</span>
             </summary>
-            <div className="mt-4 space-y-4 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+            <div className="mt-4 space-y-4 p-4 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl border border-indigo-100 dark:border-indigo-800/50">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-xs font-semibold text-indigo-800 uppercase">Natureza</label>
                   <select
                     value={nature}
                     onChange={(event) => setNature(event.target.value as any)}
-                    className="w-full p-2 bg-white border border-indigo-200 rounded-lg text-sm"
+                    className="w-full p-2 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-800 rounded-lg text-sm text-gray-900 dark:text-gray-100"
                   >
-                    <option value="variable">Variavel</option>
-                    <option value="fixed">Fixo</option>
+                    <option value="variable" className="dark:bg-gray-900">Variavel</option>
+                    <option value="fixed" className="dark:bg-gray-900">Fixo</option>
                   </select>
                 </div>
                 <div className="space-y-1">
@@ -721,12 +721,12 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                   <select
                     value={recurrence}
                     onChange={(event) => setRecurrence(event.target.value as any)}
-                    className="w-full p-2 bg-white border border-indigo-200 rounded-lg text-sm"
+                    className="w-full p-2 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-800 rounded-lg text-sm text-gray-900 dark:text-gray-100"
                   >
-                    <option value="none">Nenhuma</option>
-                    <option value="monthly">Mensal</option>
-                    <option value="weekly">Semanal</option>
-                    <option value="yearly">Anual</option>
+                    <option value="none" className="dark:bg-gray-900">Nenhuma</option>
+                    <option value="monthly" className="dark:bg-gray-900">Mensal</option>
+                    <option value="weekly" className="dark:bg-gray-900">Semanal</option>
+                    <option value="yearly" className="dark:bg-gray-900">Anual</option>
                   </select>
                 </div>
               </div>
@@ -735,14 +735,14 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                 <select
                   value={paymentMethod}
                   onChange={(event) => setPaymentMethod(event.target.value as Transaction['paymentMethod'])}
-                  className="w-full p-2 bg-white border border-indigo-200 rounded-lg text-sm"
+                  className="w-full p-2 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-800 rounded-lg text-sm text-gray-900 dark:text-gray-100"
                 >
-                  <option value="pix">PIX</option>
-                  <option value="credito">Cartao de Credito</option>
-                  <option value="debito">Cartao de Debito</option>
-                  <option value="dinheiro">Dinheiro</option>
-                  <option value="boleto">Boleto</option>
-                  <option value="transferencia">Transferencia</option>
+                  <option value="pix" className="dark:bg-gray-900">PIX</option>
+                  <option value="credito" className="dark:bg-gray-900">Cartao de Credito</option>
+                  <option value="debito" className="dark:bg-gray-900">Cartao de Debito</option>
+                  <option value="dinheiro" className="dark:bg-gray-900">Dinheiro</option>
+                  <option value="boleto" className="dark:bg-gray-900">Boleto</option>
+                  <option value="transferencia" className="dark:bg-gray-900">Transferencia</option>
                 </select>
               </div>
 
@@ -754,10 +754,10 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                       <select
                         value={selectedCreditCardId}
                         onChange={(event) => setSelectedCreditCardId(event.target.value)}
-                        className="w-full p-2 bg-white border border-indigo-200 rounded-lg text-sm"
+                        className="w-full p-2 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-800 rounded-lg text-sm text-gray-900 dark:text-gray-300"
                       >
                         {creditCards.map((card) => (
-                          <option key={card.id} value={card.id}>
+                          <option key={card.id} value={card.id} className="dark:bg-gray-900">
                             {card.name} - Fecha {card.closingDay} / Vence {card.dueDay}
                           </option>
                         ))}
@@ -785,7 +785,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                     value={installmentCountInput}
                     disabled={Boolean(editTransaction?.installmentGroupId)}
                     onChange={(event) => setInstallmentCountInput(String(normalizeInstallmentCount(event.target.value)))}
-                    className="w-24 p-2 bg-white border border-indigo-200 rounded-lg text-sm font-semibold text-center disabled:opacity-60"
+                    className="w-24 p-2 bg-white dark:bg-gray-900 border border-indigo-200 dark:border-indigo-800 rounded-lg text-sm font-semibold text-center disabled:opacity-60 text-gray-900 dark:text-gray-100"
                   />
                   <span className="text-xs text-indigo-700 font-medium">
                     x de{' '}

@@ -233,13 +233,13 @@ export const Categorias: React.FC = () => {
   };
 
   return (
-    <div className="p-4 space-y-6 pb-24">
+    <div className="p-4 space-y-6 pb-24 dark:bg-black min-h-screen">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Categorias e Configuracoes</h2>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Configuracoes</h2>
         <button
           onClick={handleAutoAssign}
           disabled={!canEdit}
-          className="flex items-center space-x-1 px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg text-sm font-medium hover:bg-indigo-100 transition-colors disabled:opacity-50"
+          className="flex items-center space-x-1 px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-lg text-sm font-medium hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors disabled:opacity-50"
         >
           <Wand2 size={16} />
           <span>Sugerir icones</span>
@@ -247,13 +247,13 @@ export const Categorias: React.FC = () => {
       </div>
 
       {!canEdit && (
-        <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 text-sm font-medium">
+        <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 text-sm font-medium">
           Perfil atual em modo somente leitura.
         </div>
       )}
 
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-3">
-        <p className="text-sm font-semibold text-gray-700">Exportacao e backup</p>
+      <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 space-y-3">
+        <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">Exportacao e backup</p>
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={handleExportCsv}
@@ -397,31 +397,31 @@ export const Categorias: React.FC = () => {
       </div>
 
       {/* Default Settings Section */}
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-3">
-        <p className="text-sm font-semibold text-gray-700 flex items-center justify-between">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 space-y-3">
+        <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center justify-between">
           <span className="flex items-center">
             <Save size={15} className="mr-1.5 text-indigo-500" />
             Configuracoes e Tema
           </span>
           <button
             onClick={() => useAppStore().toggleTheme()}
-            className="p-2 bg-gray-100 rounded-xl text-gray-600 hover:bg-gray-200 transition-colors"
+            className="p-2 bg-gray-100 dark:bg-gray-800 rounded-xl text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             title="Alternar tema"
           >
             {useAppStore().theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
         </p>
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 dark:text-gray-500">
           Personalize sua experiencia e opcoes padrao.
         </p>
         
         <div className="grid grid-cols-1 gap-4 pt-1">
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Forma de Pagamento</label>
+            <label className="text-[10px] font-bold text-gray-500 dark:text-gray-500 uppercase tracking-wider">Forma de Pagamento</label>
             <select
               value={useAppStore().defaultPaymentMethod}
               onChange={(e) => useAppStore().setDefaultPaymentMethod(e.target.value as any)}
-              className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none"
+              className="w-full p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
             >
               <option value="pix">PIX</option>
               <option value="credito">Cartao de Credito</option>
@@ -433,11 +433,11 @@ export const Categorias: React.FC = () => {
           </div>
           
           <div className="space-y-1.5">
-            <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Conta</label>
+            <label className="text-[10px] font-bold text-gray-500 dark:text-gray-500 uppercase tracking-wider">Conta</label>
             <select
               value={useAppStore().defaultAccount}
               onChange={(e) => useAppStore().setDefaultAccount(e.target.value)}
-              className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm outline-none"
+              className="w-full p-2.5 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
             >
               {accounts.map((acc) => (
                 <option key={acc} value={acc}>{acc}</option>
@@ -472,9 +472,9 @@ export const Categorias: React.FC = () => {
             </div>
 
             {category.type === 'expense' && (
-              <div className="mt-3 rounded-xl border border-gray-100 bg-gray-50 p-3 space-y-2">
-                <p className="text-[11px] uppercase tracking-wider font-semibold text-gray-500">Meta mensal por categoria</p>
-                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_auto] gap-2">
+              <div className="mt-3 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-850/50 p-3 space-y-2">
+                <p className="text-[11px] uppercase tracking-wider font-semibold text-gray-500 dark:text-gray-500">Meta mensal por categoria</p>
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="number"
                     min={0}
@@ -482,22 +482,22 @@ export const Categorias: React.FC = () => {
                     value={goalDrafts[category.id] ?? String(goalMap.get(category.id)?.monthlyLimit ?? '')}
                     onChange={(event) => setGoalDrafts((prev) => ({ ...prev, [category.id]: event.target.value }))}
                     placeholder="Limite mensal"
-                    className="p-2 bg-white border border-gray-200 rounded-lg text-sm"
+                    className="flex-1 min-w-0 p-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 dark:text-gray-100"
                     disabled={!canEdit}
                   />
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 shrink-0">
                     <button
                       onClick={() => saveCategoryGoal(category.id)}
                       disabled={!canEdit}
-                      className="flex-1 sm:flex-none px-3 py-2 rounded-lg bg-indigo-600 text-white text-sm font-semibold disabled:opacity-50 flex items-center justify-center"
+                      className="flex-1 px-4 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-bold disabled:opacity-50 flex items-center justify-center shadow-sm hover:bg-indigo-700 transition-colors whitespace-nowrap"
                     >
-                      <Save size={13} className="mr-1.5" />
+                      <Save size={14} className="mr-1.5" />
                       Salvar
                     </button>
                     <button
                       onClick={() => clearCategoryGoal(category.id)}
                       disabled={!canEdit}
-                      className="flex-1 sm:flex-none px-3 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 text-sm font-semibold disabled:opacity-50"
+                      className="flex-1 px-4 py-2.5 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 text-sm font-bold disabled:opacity-50 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors whitespace-nowrap"
                     >
                       Limpar
                     </button>
