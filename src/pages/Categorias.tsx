@@ -470,7 +470,7 @@ export const Categorias: React.FC = () => {
             </div>
 
             {category.type === 'expense' && (
-              <div className="mt-3 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-850/50 p-3 space-y-2">
+              <div className="mt-3 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50 p-3 space-y-2">
                 <p className="text-[11px] uppercase tracking-wider font-semibold text-gray-500 dark:text-gray-500">Meta mensal por categoria</p>
                 <div className="flex flex-col sm:flex-row gap-2">
                   <input

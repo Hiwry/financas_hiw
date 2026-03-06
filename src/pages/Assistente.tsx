@@ -155,15 +155,15 @@ export const Assistente: React.FC = () => {
   ];
 
   return (
-    <div className="absolute inset-0 pb-20 flex flex-col bg-gray-50 z-10">
+    <div className="absolute inset-0 pb-20 flex flex-col bg-gray-50 dark:bg-black z-10 transition-colors">
       {/* Header */}
-      <div className="bg-white p-4 shadow-sm border-b border-gray-100 flex items-center space-x-3 shrink-0">
-        <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600">
+      <div className="bg-white dark:bg-gray-900 p-4 shadow-sm border-b border-gray-100 dark:border-gray-800 flex items-center space-x-3 shrink-0 transition-colors">
+        <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400">
           <Bot size={24} />
         </div>
         <div>
-          <h2 className="text-lg font-bold text-gray-800">Assistente IA</h2>
-          <p className="text-xs text-gray-500 flex items-center"><Sparkles size={10} className="mr-1 text-amber-500"/> Powered by Gemini</p>
+          <h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">Assistente IA</h2>
+          <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center"><Sparkles size={10} className="mr-1 text-amber-500"/> Powered by Gemini</p>
         </div>
       </div>
 
@@ -174,7 +174,7 @@ export const Assistente: React.FC = () => {
             <div className={`max-w-[85%] rounded-2xl p-4 shadow-sm ${
               msg.role === 'user' 
                 ? 'bg-indigo-600 text-white rounded-tr-sm' 
-                : 'bg-white border border-gray-100 text-gray-800 rounded-tl-sm'
+                : 'bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-100 rounded-tl-sm transition-colors'
             }`}>
               {msg.role === 'assistant' ? (
                 <div className="prose prose-sm prose-indigo max-w-none">
@@ -188,9 +188,9 @@ export const Assistente: React.FC = () => {
         ))}
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-sm p-4 shadow-sm flex items-center space-x-2">
-              <Loader2 size={16} className="animate-spin text-indigo-600" />
-              <span className="text-sm text-gray-500">Analisando seus dados...</span>
+            <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl rounded-tl-sm p-4 shadow-sm flex items-center space-x-2 transition-colors">
+              <Loader2 size={16} className="animate-spin text-indigo-600 dark:text-indigo-400" />
+              <span className="text-sm text-gray-500 dark:text-gray-400">Analisando seus dados...</span>
             </div>
           </div>
         )}
@@ -198,7 +198,7 @@ export const Assistente: React.FC = () => {
       </div>
 
       {/* Input Area (Anchored to bottom) */}
-      <div className="shrink-0 bg-white border-t border-gray-100 p-4">
+      <div className="shrink-0 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 p-4 transition-colors">
         {/* Suggestions */}
         {messages.length < 3 && (
           <div className="pb-3 flex space-x-2 overflow-x-auto hide-scrollbar">
@@ -206,7 +206,7 @@ export const Assistente: React.FC = () => {
               <button
                 key={i}
                 onClick={() => setInput(sug)}
-                className="whitespace-nowrap px-3 py-1.5 bg-indigo-50 text-indigo-600 text-xs font-medium rounded-full border border-indigo-100 hover:bg-indigo-100 transition-colors"
+                className="whitespace-nowrap px-3 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-medium rounded-full border border-indigo-100 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
               >
                 {sug}
               </button>
@@ -219,7 +219,7 @@ export const Assistente: React.FC = () => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Pergunte sobre suas finanças..."
-            className="flex-1 bg-gray-50 border border-gray-200 rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-shadow"
+            className="flex-1 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 disabled:opacity-50 text-gray-900 dark:text-gray-100 transition-colors"
             disabled={isLoading}
           />
           <button
@@ -227,7 +227,7 @@ export const Assistente: React.FC = () => {
             disabled={!input.trim() || isLoading}
             className={`p-3 rounded-full flex items-center justify-center transition-colors shrink-0 ${
               !input.trim() || isLoading 
-                ? 'bg-gray-100 text-gray-400' 
+                ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-600' 
                 : 'bg-indigo-600 text-white shadow-md hover:bg-indigo-700'
             }`}
           >
