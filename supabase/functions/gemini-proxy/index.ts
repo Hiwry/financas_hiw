@@ -48,20 +48,22 @@ serve(async (request) => {
       Frase: "${text}"
       Data de hoje: ${today}
 
-      Regras:
-      - type: 'income' ou 'expense'.
+      Regras EXTREMAMENTE IMPORTANTES:
+      1. date: YYYY-MM-DD. Mapeie termos ("hoje", "amanha", "ontem") usando "Data de hoje" como base. SE NENHUMA DATA FOR MENCIONADA NA FRASE, DEVOLVA EXATAMENTE A "Data de hoje" (${today}). Nunca deixe vazio.
+      2. categoryName: Escolha OBRIGATORIAMENTE uma das opcoes exatas desta lista: [${categoryNames}]. Use o bom senso: "mercado" ou "ifood" -> "Alimentação". "gasolina" ou "uber" -> "Transporte". "luz" ou "aluguel" -> "Moradia". Se nenhuma encaixar, escolha a que mais se aproxima ou "Outros".
+      
+      Outras Regras:
+      - type: 'income' (ganhos, salarios) ou 'expense' (gastos, compras).
       - nature: 'fixed' ou 'variable'.
-      - amount: numero decimal.
-      - date: YYYY-MM-DD. Use a data de hoje como referencia para resolver termos como "hoje", "amanha", "ontem".
-      - installmentCount: inteiro >= 1. Se frase tiver "3x" ou "3 parcelas", retorne 3.
-      - categoryName: escolha entre [${categoryNames}].
-      - subcategory: obrigatoria e curta (ex: Uber, Restaurante, Luz). Nunca vazia.
+      - amount: numero decimal (ex: 15.50).
+      - installmentCount: inteiro >= 1. Se frase tiver "3x", retorne 3.
+      - subcategory: curta (ex: Uber, Restaurante, Luz). Nunca vazia.
       - tags: array de strings.
       - paymentMethod: dinheiro, debito, credito, pix, boleto ou transferencia.
       - account: tente identificar entre [${accountNames}].
       - recurrence: none, monthly, weekly, biweekly ou yearly.
       - status: paid ou pending.
-      - description: obrigatoria e especifica. Nunca vazia.
+      - description: descricao curta e direta do gasto/ganho. Nunca vazia.
       `;
 
       const response = await ai.models.generateContent({

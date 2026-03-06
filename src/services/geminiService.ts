@@ -326,15 +326,24 @@ const buildTransactionFromParsed = (
   const type = parsed.type === 'income' || parsed.type === 'expense' ? parsed.type : inferredType;
   const amount = typeof parsed.amount === 'number' && parsed.amount > 0 ? parsed.amount : inferAmountFromText(text);
   const hasRelativeDateWord = /amanh[aã]|ontem|anteontem|hoje/i.test(text);
-  const date = hasRelativeDateWord
+  
+  // Se tiver palavra relativa, preferir inferência local.
+  // Se não, confiar no AI (que agora forcei a retornar todayDate se não achar nada).
+  // Se ambos falharem, força a data de hoje.
+  let date = hasRelativeDateWord
     ? inferDateFromText(text)
-    : (typeof parsed.date === 'string' && parsed.date.trim() ? parsed.date : inferDateFromText(text));
+    : (typeof parsed.date === 'string' && parsed.date.trim().length >= 10 ? parsed.date.slice(0, 10) : inferDateFromText(text));
+  
+  if (!date || date.length < 10) {
+    date = toLocalIsoDate();
+  }
+
   const description = String(parsed.description || parsed.merchant || '').trim() || inferDescription(text);
   const subcategory = String(parsed.subcategory || parsed.merchant || '').trim() || inferSubcategory(text);
   const categoryId = findCategoryId(type, String(parsed.categoryName || ''), categories, `${text} ${description} ${subcategory}`);
   const paymentMethod = inferPaymentMethod(String(parsed.paymentMethod || text));
   const parsedInstallmentCount = Number.isFinite(Number(parsed.installmentCount)) ? Number(parsed.installmentCount) : inferInstallmentCount(text);
-  const installmentCount = paymentMethod === 'credito' ? Math.min(48, Math.max(1, Math.floor(parsedInstallmentCount))) : 1;
+  const installmentCount = Math.min(48, Math.max(1, Math.floor(parsedInstallmentCount)));
 
   const tags = Array.isArray(parsed.tags)
     ? parsed.tags.filter((tag) => typeof tag === 'string' && tag.trim())

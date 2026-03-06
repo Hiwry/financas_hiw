@@ -330,12 +330,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
     setIsListening(true);
   };
 
-  useEffect(() => {
-    if (type === 'expense' && paymentMethod === 'credito') return;
-    if (installmentCountInput !== String(DEFAULT_INSTALLMENT_COUNT)) {
-      setInstallmentCountInput(String(DEFAULT_INSTALLMENT_COUNT));
-    }
-  }, [type, paymentMethod, installmentCountInput]);
+
 
   useEffect(() => {
     if (!(type === 'expense' && paymentMethod === 'credito')) return;
@@ -387,9 +382,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
       .filter((tag) => tag);
 
     if (editTransaction) {
-      const installmentCount = isCreditExpense
-        ? editTransaction.installmentCount || parsedInstallmentCount
-        : DEFAULT_INSTALLMENT_COUNT;
+      const installmentCount = editTransaction.installmentCount || parsedInstallmentCount;
 
       const updatedTransaction: Transaction = {
         id: editTransaction.id,
@@ -408,8 +401,8 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
         createdAt: editTransaction.createdAt,
         dueDate: status === 'pending' ? editTransaction.dueDate || date : undefined,
         installmentCount,
-        installmentNumber: isCreditExpense ? editTransaction.installmentNumber || 1 : undefined,
-        installmentGroupId: isCreditExpense ? editTransaction.installmentGroupId : undefined,
+        installmentNumber: editTransaction.installmentNumber || (parsedInstallmentCount > 1 ? 1 : undefined),
+        installmentGroupId: editTransaction.installmentGroupId,
         creditCardId: isCreditExpense ? selectedCard?.id : undefined,
       };
 
@@ -422,7 +415,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
       return;
     }
 
-    if (isCreditExpense && parsedInstallmentCount > 1) {
+    if (parsedInstallmentCount > 1) {
       const createdAt = new Date().toISOString();
       const installmentGroupId = uuidv4();
       const installmentAmounts = splitAmountByInstallments(parsedAmount, parsedInstallmentCount);
@@ -437,7 +430,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
           date: installmentDate,
           categoryId,
           paymentMethod: paymentMethod as any,
-          account: selectedCard?.account || account,
+          account: isCreditExpense ? selectedCard?.account || account : account,
           description,
           subcategoryId,
           tags,
@@ -448,7 +441,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
           installmentCount: parsedInstallmentCount,
           installmentNumber: index + 1,
           installmentGroupId,
-          creditCardId: selectedCard?.id,
+          creditCardId: isCreditExpense ? selectedCard?.id : undefined,
         };
       });
 
@@ -473,8 +466,8 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
       status,
       createdAt: new Date().toISOString(),
       dueDate: status === 'pending' ? date : undefined,
-      installmentCount: isCreditExpense ? parsedInstallmentCount : DEFAULT_INSTALLMENT_COUNT,
-      installmentNumber: isCreditExpense ? 1 : undefined,
+      installmentCount: parsedInstallmentCount,
+      installmentNumber: undefined,
       installmentGroupId: undefined,
       creditCardId: isCreditExpense ? selectedCard?.id : undefined,
     };
@@ -751,7 +744,7 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
 
               {type === 'expense' && paymentMethod === 'credito' && (
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-indigo-800 uppercase">Cartao</label>
+                  <label className="text-xs font-semibold text-indigo-800 uppercase">Cartao de Credito</label>
                   {creditCards.length > 0 ? (
                     <>
                       <select
@@ -774,46 +767,48 @@ export const Adicionar: React.FC<{ onSave: () => void; editTransaction?: Transac
                       Nenhum cartao cadastrado. Cadastre primeiro em Cartoes.
                     </p>
                   )}
-
-                  <label className="text-xs font-semibold text-indigo-800 uppercase">Parcelas no Cartao</label>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="number"
-                      min={1}
-                      max={48}
-                      step={1}
-                      value={installmentCountInput}
-                      disabled={Boolean(editTransaction?.installmentGroupId)}
-                      onChange={(event) => setInstallmentCountInput(String(normalizeInstallmentCount(event.target.value)))}
-                      className="w-24 p-2 bg-white border border-indigo-200 rounded-lg text-sm font-semibold text-center disabled:opacity-60"
-                    />
-                    <span className="text-xs text-indigo-700 font-medium">
-                      x de{' '}
-                      {Number.isFinite(Number.parseFloat(amount.replace(',', '.'))) && Number.parseFloat(amount.replace(',', '.')) > 0
-                        ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
-                            Number.parseFloat(amount.replace(',', '.')) / normalizeInstallmentCount(installmentCountInput)
-                          )
-                        : 'R$ 0,00'}
-                    </span>
-                  </div>
-                  {editTransaction?.installmentGroupId && (
-                    <p className="text-[11px] text-indigo-700">
-                      Esta parcela faz parte de um grupo ja criado. Para alterar o total de parcelas, exclua e relance no formato correto.
-                    </p>
-                  )}
-                  {editTransaction?.installmentGroupId && (
-                    <label className="inline-flex items-center space-x-2 text-[11px] text-indigo-800">
-                      <input
-                        type="checkbox"
-                        checked={applyToFutureInstallments}
-                        onChange={(event) => setApplyToFutureInstallments(event.target.checked)}
-                        className="w-4 h-4 text-indigo-600 rounded"
-                      />
-                      <span>Aplicar alteracoes desta parcela para as proximas do grupo</span>
-                    </label>
-                  )}
                 </div>
               )}
+
+              <div className="space-y-2 mt-4 pt-4 border-t border-indigo-200/50">
+                <label className="text-xs font-semibold text-indigo-800 uppercase">Parcelamento / Divisao</label>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="number"
+                    min={1}
+                    max={48}
+                    step={1}
+                    value={installmentCountInput}
+                    disabled={Boolean(editTransaction?.installmentGroupId)}
+                    onChange={(event) => setInstallmentCountInput(String(normalizeInstallmentCount(event.target.value)))}
+                    className="w-24 p-2 bg-white border border-indigo-200 rounded-lg text-sm font-semibold text-center disabled:opacity-60"
+                  />
+                  <span className="text-xs text-indigo-700 font-medium">
+                    x de{' '}
+                    {Number.isFinite(Number.parseFloat(amount.replace(',', '.'))) && Number.parseFloat(amount.replace(',', '.')) > 0
+                      ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(
+                          Number.parseFloat(amount.replace(',', '.')) / normalizeInstallmentCount(installmentCountInput)
+                        )
+                      : 'R$ 0,00'}
+                  </span>
+                </div>
+                {editTransaction?.installmentGroupId && (
+                  <p className="text-[11px] text-indigo-700">
+                    Esta parcela faz parte de um grupo ja criado. Para alterar o total de parcelas, exclua e relance no formato correto.
+                  </p>
+                )}
+                {editTransaction?.installmentGroupId && (
+                  <label className="inline-flex items-center space-x-2 mt-2 text-[11px] text-indigo-800">
+                    <input
+                      type="checkbox"
+                      checked={applyToFutureInstallments}
+                      onChange={(event) => setApplyToFutureInstallments(event.target.checked)}
+                      className="w-4 h-4 text-indigo-600 rounded"
+                    />
+                    <span>Aplicar alteracoes desta parcela para as proximas do grupo</span>
+                  </label>
+                )}
+              </div>
             </div>
           </details>
 
