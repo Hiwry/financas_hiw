@@ -53,13 +53,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
             >
               <Bot size={24} />
             </button>
-            <button 
-              onClick={() => setActiveTab('cartoes')}
-              className={`p-2 rounded-full transition-colors ${activeTab === 'cartoes' ? 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'}`}
-              aria-label="Cartoes"
-            >
-              <CreditCardIcon size={24} />
-            </button>
+
             <button 
               onClick={() => setActiveTab('categorias')}
               className={`p-2 rounded-full transition-colors ${activeTab === 'categorias' ? 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'}`}
