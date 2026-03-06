@@ -1,0 +1,5 @@
+{
+  "name": "Meu Controle",
+  "description": "Aplicativo mobile-first de finanças pessoais com entrada por voz e assistente IA.",
+  "requestFramePermissions": ["microphone"]
+}

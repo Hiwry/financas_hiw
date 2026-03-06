@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Financas HIW</string>
+    <string name="title_activity_main">Financas HIW</string>
+    <string name="package_name">com.hiwry.financas</string>
+    <string name="custom_url_scheme">com.hiwry.financas</string>
+</resources>
