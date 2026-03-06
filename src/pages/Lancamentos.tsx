@@ -1,8 +1,8 @@
 ﻿import React, { useMemo, useState } from 'react';
 import { useAppStore } from '../store';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, addMonths, subMonths, isSameMonth } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Filter, Search, Trash2, Edit2, Calendar as CalendarIcon, Tag, CreditCard, CheckCircle, Clock, X, HandCoins, Ban, RefreshCcw, AlertTriangle } from 'lucide-react';
+import { Filter, Search, Trash2, Edit2, Calendar as CalendarIcon, Tag, CreditCard, CheckCircle, Clock, X, HandCoins, Ban, RefreshCcw, AlertTriangle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { CategoryIcon } from '../components/CategoryIcon';
 import { Transaction } from '../types';
 
@@ -31,6 +31,7 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
   const [renegotiateAmount, setRenegotiateAmount] = useState('');
   const [confirmAction, setConfirmAction] = useState<ConfirmAction | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const toggleStatus = (transaction: Transaction) => {
     if (!canEdit) return;
@@ -43,15 +44,17 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
   const filteredTransactions = useMemo(() => {
     return transactions
       .filter((transaction) => {
+        const txDate = parseISO(transaction.date);
+        const matchesMonth = isSameMonth(txDate, currentMonth);
         const matchesType = filterType === 'all' || transaction.type === filterType;
         const matchesCategory = filterCategory === 'all' || transaction.categoryId === filterCategory;
         const description = transaction.description?.toLowerCase() || '';
         const categoryName = categories.find((category) => category.id === transaction.categoryId)?.name.toLowerCase() || '';
         const matchesSearch = description.includes(searchTerm.toLowerCase()) || categoryName.includes(searchTerm.toLowerCase());
-        return matchesType && matchesCategory && matchesSearch;
+        return matchesMonth && matchesType && matchesCategory && matchesSearch;
       })
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  }, [transactions, filterType, filterCategory, searchTerm, categories]);
+  }, [transactions, filterType, filterCategory, searchTerm, categories, currentMonth]);
 
   const groupedTransactions = useMemo(() => {
     const groups: Record<string, typeof filteredTransactions> = {};
@@ -76,13 +79,46 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
     <div className="p-4 space-y-6 pb-24">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-800">Extrato</h2>
-        <button 
-          onClick={() => setShowFilters(!showFilters)}
-          className={`p-2 rounded-full transition-all ${
-            showFilters ? 'bg-indigo-600 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 shadow-sm'
-          }`}
+        <div className="flex items-center space-x-2">
+          <button 
+            onClick={() => setShowFilters(!showFilters)}
+            className={`p-2 rounded-full transition-all ${
+              showFilters ? 'bg-indigo-600 text-white shadow-md' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 shadow-sm'
+            }`}
+          >
+            <Filter size={20} />
+          </button>
+        </div>
+      </div>
+
+      {/* Month Navigator */}
+      <div className="flex items-center justify-between bg-white p-3 rounded-2xl border border-gray-100 shadow-sm">
+        <button
+          onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
+          className="p-2 hover:bg-gray-50 rounded-full transition-colors text-gray-600"
         >
-          <Filter size={20} />
+          <ChevronLeft size={24} />
+        </button>
+        
+        <div className="flex flex-col items-center">
+          <span className="text-sm font-semibold text-gray-900 capitalize">
+            {format(currentMonth, 'MMMM yyyy', { locale: ptBR })}
+          </span>
+          {!isSameMonth(currentMonth, new Date()) && (
+            <button 
+              onClick={() => setCurrentMonth(new Date())}
+              className="text-[10px] font-bold text-indigo-600 uppercase tracking-tight mt-0.5 hover:underline"
+            >
+              Voltar para Hoje
+            </button>
+          )}
+        </div>
+
+        <button
+          onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
+          className="p-2 hover:bg-gray-50 rounded-full transition-colors text-gray-600"
+        >
+          <ChevronRight size={24} />
         </button>
       </div>
 
@@ -485,15 +521,11 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
 
                       <button
                         onClick={() => {
-                          if (!canEdit) return;
-                          if (onEdit) {
-                            onEdit(selectedTx);
-                            setSelectedTx(null);
-                          } else {
-                            alert('Edicao nao disponivel.');
-                          }
+                          if (!canEdit || !onEdit) return;
+                          onEdit(selectedTx);
+                          setSelectedTx(null);
                         }}
-                        disabled={!canEdit}
+                        disabled={!canEdit || !onEdit}
                         className="py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold text-sm flex items-center justify-center hover:bg-gray-200 transition-colors disabled:opacity-50"
                       >
                         <Edit2 size={18} className="mr-2" />
