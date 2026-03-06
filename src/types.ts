@@ -96,4 +96,5 @@ export interface AppState {
   reminderSettings: ReminderSettings;
   categoryGoals: CategoryGoal[];
   household: HouseholdSettings;
+  skippedOccurrences: Record<string, string[]>;
 }
