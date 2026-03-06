@@ -78,7 +78,7 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
   };
 
   return (
-    <div className="p-4 space-y-6 pb-24">
+    <div className="p-4 space-y-6 pb-24 dark:bg-black min-h-screen">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Extrato</h2>
         <div className="flex items-center space-x-2">
@@ -220,12 +220,13 @@ export const Lancamentos: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ 
             ) : (
               Object.entries(groupedTransactions).map(([date, items]) => (
                 <div key={date} className="space-y-2">
-                  <div className="sticky top-0 z-10 py-2 bg-gray-50 dark:bg-black/95 backdrop-blur-md">
-                    <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest pl-1">
+                  <div className="sticky top-0 z-10 bg-gray-50/95 dark:bg-black/95 backdrop-blur-md py-2 px-1 mb-2 border-b border-gray-100 dark:border-gray-800 transition-colors">
+                    <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest flex items-center">
+                      <span className="w-8 h-[1px] bg-gray-200 dark:bg-gray-800 mr-2"></span>
                       {date}
                     </h3>
                   </div>
-                  <div className="space-y-2">
+      <div className="space-y-2">
                     {items.map((tx) => {
                       const category = categories.find((cat) => cat.id === tx.categoryId);
                       const isIncome = tx.type === 'income';

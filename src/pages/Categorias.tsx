@@ -206,11 +206,9 @@ export const Categorias: React.FC = () => {
         message: 'Restaurar backup? Isso substitui todos os seus dados atuais por uma versao anterior.',
         onConfirm: () => {
           replaceState(parsed);
+          alert('Backup restaurado com sucesso.');
         },
       });
-
-      replaceState(parsed);
-      alert('Backup restaurado com sucesso.');
     } catch (error) {
       console.error(error);
       alert('Falha ao restaurar backup.');
@@ -299,27 +297,27 @@ export const Categorias: React.FC = () => {
         />
       </div>
 
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-3">
-        <p className="text-sm font-semibold text-gray-700 flex items-center">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 space-y-3">
+        <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 flex items-center">
           <Users size={15} className="mr-1.5 text-indigo-500" />
           Modo casal/familia
         </p>
-        <label className="inline-flex items-center space-x-2 text-sm text-gray-700">
+        <label className="inline-flex items-center space-x-2 text-sm text-gray-700 dark:text-gray-300">
           <input
             type="checkbox"
             checked={household.enabled}
             onChange={(event) => setHouseholdEnabled(event.target.checked)}
-            className="w-4 h-4 text-indigo-600"
+            className="w-4 h-4 text-indigo-600 rounded border-gray-300 dark:border-gray-700 dark:bg-gray-800"
           />
           <span>Ativar controle compartilhado com permissoes</span>
         </label>
 
         <div className="space-y-2">
-          <label className="text-xs uppercase tracking-wider text-gray-500 font-semibold">Perfil ativo</label>
+          <label className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-500 font-semibold">Perfil ativo</label>
           <select
             value={household.activeMemberId}
             onChange={(event) => setActiveMember(event.target.value)}
-            className="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm"
+            className="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
           >
             {household.members.map((member) => (
               <option key={member.id} value={member.id}>
@@ -335,13 +333,13 @@ export const Categorias: React.FC = () => {
               <input
                 value={member.name}
                 onChange={(event) => updateHouseholdMember({ ...member, name: event.target.value })}
-                className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-sm"
+                className="p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
                 disabled={!canEdit}
               />
               <select
                 value={member.role}
                 onChange={(event) => updateHouseholdMember({ ...member, role: event.target.value as HouseholdRole })}
-                className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-sm"
+                className="p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
                 disabled={!canEdit}
               >
                 <option value="owner">owner</option>
@@ -357,7 +355,7 @@ export const Categorias: React.FC = () => {
                   });
                 }}
                 disabled={!canEdit || household.members.length <= 1}
-                className="p-2 rounded-lg bg-rose-50 text-rose-600 disabled:opacity-50"
+                className="p-2 rounded-lg bg-rose-50 dark:bg-rose-900/10 text-rose-600 dark:text-rose-400 disabled:opacity-50"
               >
                 <Trash2 size={14} />
               </button>
@@ -370,12 +368,12 @@ export const Categorias: React.FC = () => {
             value={newMemberName}
             onChange={(event) => setNewMemberName(event.target.value)}
             placeholder="Novo membro"
-            className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-sm"
+            className="p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
           />
           <select
             value={newMemberRole}
             onChange={(event) => setNewMemberRole(event.target.value as HouseholdRole)}
-            className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-sm"
+            className="p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
           >
             <option value="editor">editor</option>
             <option value="viewer">viewer</option>
@@ -389,7 +387,7 @@ export const Categorias: React.FC = () => {
               setNewMemberRole('editor');
             }}
             disabled={!canEdit}
-            className="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold disabled:opacity-50"
+            className="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold disabled:opacity-50 hover:bg-indigo-700 transition-colors"
           >
             Add
           </button>
@@ -449,7 +447,7 @@ export const Categorias: React.FC = () => {
 
       <div className="space-y-4">
         {categories.map((category) => (
-          <div key={category.id} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+          <div key={category.id} className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 transition-colors">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
                 <div
@@ -459,13 +457,13 @@ export const Categorias: React.FC = () => {
                   <CategoryIcon name={category.icon} type={category.type} size={24} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">{category.name}</h3>
-                  <p className="text-xs text-gray-500">{category.type === 'income' ? 'Receita' : 'Despesa'}</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100">{category.name}</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{category.type === 'income' ? 'Receita' : 'Despesa'}</p>
                 </div>
               </div>
               <button
                 onClick={() => setEditingCategory(editingCategory === category.id ? null : category.id)}
-                className="p-2 text-gray-400 hover:text-indigo-600 transition-colors bg-gray-50 rounded-full"
+                className="p-2 text-gray-400 dark:text-gray-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors bg-gray-50 dark:bg-gray-800 rounded-full"
               >
                 {editingCategory === category.id ? <X size={20} /> : <Edit2 size={20} />}
               </button>
@@ -509,13 +507,13 @@ export const Categorias: React.FC = () => {
             {editingCategory === category.id && (
               <div className="mt-4 pt-4 border-t border-gray-100 animate-in slide-in-from-top-2 duration-200">
                 <div className="relative mb-4">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={16} />
                   <input
                     type="text"
                     placeholder="Buscar icone..."
                     value={searchIcon}
                     onChange={(event) => setSearchIcon(event.target.value)}
-                    className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full pl-9 pr-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
                   />
                 </div>
 
@@ -529,8 +527,8 @@ export const Categorias: React.FC = () => {
                         onClick={() => handleIconSelect(category.id, iconName)}
                         className={`flex flex-col items-center justify-center p-2 rounded-xl transition-all ${
                           isSelected
-                            ? 'bg-indigo-100 text-indigo-600 ring-2 ring-indigo-500'
-                            : 'hover:bg-gray-100 text-gray-600'
+                            ? 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 ring-2 ring-indigo-500'
+                            : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400'
                         }`}
                         title={iconName}
                       >
@@ -548,18 +546,18 @@ export const Categorias: React.FC = () => {
       {/* Confirmation Modal */}
       {confirmAction && (
         <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl w-full max-w-sm shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200">
+          <div className="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-sm shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200 border border-transparent dark:border-gray-800">
             <div className="p-6 text-center">
-              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-rose-600">
+              <div className="w-16 h-16 bg-rose-100 dark:bg-rose-900/20 rounded-full flex items-center justify-center mx-auto mb-4 text-rose-600 dark:text-rose-400">
                 <AlertTriangle size={32} />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Confirmar Acao</h3>
-              <p className="text-gray-500 mb-6">{confirmAction.message}</p>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Confirmar Acao</h3>
+              <p className="text-gray-500 dark:text-gray-400 mb-6">{confirmAction.message}</p>
               
               <div className="flex gap-3">
                 <button
                   onClick={() => setConfirmAction(null)}
-                  className="flex-1 py-3.5 px-4 bg-gray-100 text-gray-700 font-bold rounded-2xl hover:bg-gray-200 transition-colors"
+                  className="flex-1 py-3.5 px-4 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-2xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                 >
                   Cancelar
                 </button>
@@ -568,7 +566,7 @@ export const Categorias: React.FC = () => {
                     confirmAction.onConfirm();
                     setConfirmAction(null);
                   }}
-                  className="flex-1 py-3.5 px-4 bg-rose-600 text-white font-bold rounded-2xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200"
+                  className="flex-1 py-3.5 px-4 bg-rose-600 text-white font-bold rounded-2xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200 dark:shadow-rose-900/20"
                 >
                   Confirmar
                 </button>

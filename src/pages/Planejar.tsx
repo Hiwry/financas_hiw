@@ -143,38 +143,38 @@ export const Planejar: React.FC = () => {
     const details = bucketBreakdown[bucket];
 
     return (
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-4">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-800 mb-4 transition-colors">
         <button
           onClick={() => setOpenBucket((prev) => (prev === bucket ? null : bucket))}
           className="w-full text-left"
         >
           <div className="flex justify-between items-end mb-2">
             <div>
-              <h4 className="font-semibold text-gray-800">{label}</h4>
-              <p className="text-xs text-gray-500">
+              <h4 className="font-semibold text-gray-800 dark:text-gray-100">{label}</h4>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 Meta: {formatCurrency(targetAmount)} ({(targetPercent * 100).toFixed(0)}%)
               </p>
             </div>
             <div className="text-right">
-              <span className={`font-bold ${isOver ? 'text-rose-600' : 'text-gray-900'}`}>{formatCurrency(actual)}</span>
-              <p className="text-xs text-gray-500">Gasto Atual</p>
+              <span className={`font-bold ${isOver ? 'text-rose-600 dark:text-rose-400' : 'text-gray-900 dark:text-gray-100'}`}>{formatCurrency(actual)}</span>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Gasto Atual</p>
             </div>
           </div>
 
-          <div className="w-full bg-gray-100 rounded-full h-3 relative overflow-hidden">
+          <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-3 relative overflow-hidden">
             <div className={`h-3 rounded-full transition-all duration-500 ${isOver ? 'bg-rose-500' : color}`} style={{ width: `${percentUsed}%` }}></div>
           </div>
 
           <div className="mt-2 flex items-center justify-between">
             {isOver ? (
-              <p className="text-xs text-rose-600 font-medium">Voce ultrapassou a meta em {formatCurrency(actual - targetAmount)}.</p>
+              <p className="text-xs text-rose-600 dark:text-rose-400 font-medium">Voce ultrapassou a meta em {formatCurrency(actual - targetAmount)}.</p>
             ) : targetAmount > 0 ? (
-              <p className="text-xs text-emerald-600 font-medium">Voce ainda pode gastar {formatCurrency(targetAmount - actual)}.</p>
+              <p className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">Voce ainda pode gastar {formatCurrency(targetAmount - actual)}.</p>
             ) : (
-              <p className="text-xs text-gray-500 font-medium">Sem renda no mes para calcular meta.</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Sem renda no mes para calcular meta.</p>
             )}
 
-            <span className="text-xs text-indigo-600 font-semibold inline-flex items-center">
+            <span className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold inline-flex items-center">
               Ver detalhes
               {isOpen ? <ChevronUp size={14} className="ml-1" /> : <ChevronDown size={14} className="ml-1" />}
             </span>
@@ -182,19 +182,19 @@ export const Planejar: React.FC = () => {
         </button>
 
         {isOpen && (
-          <div className="mt-4 pt-4 border-t border-gray-100 space-y-3">
+          <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 space-y-3">
             <div>
-              <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2">Categorias Aplicadas</p>
+              <p className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Categorias Aplicadas</p>
               {details.categories.length === 0 ? (
-                <p className="text-sm text-gray-500">Nenhum gasto nesse grupo no mes atual.</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Nenhum gasto nesse grupo no mes atual.</p>
               ) : (
                 <div className="space-y-2">
                   {details.categories.map((item) => (
                     <div key={`${bucket}-${item.categoryId}`} className="flex items-center justify-between text-sm">
-                      <span className="text-gray-700">
-                        {item.name} <span className="text-gray-400">({item.count}x)</span>
+                      <span className="text-gray-700 dark:text-gray-300">
+                        {item.name} <span className="text-gray-400 dark:text-gray-500">({item.count}x)</span>
                       </span>
-                      <span className="font-semibold text-gray-900">{formatCurrency(item.amount)}</span>
+                      <span className="font-semibold text-gray-900 dark:text-gray-100">{formatCurrency(item.amount)}</span>
                     </div>
                   ))}
                 </div>
@@ -203,17 +203,17 @@ export const Planejar: React.FC = () => {
 
             {details.transactions.length > 0 && (
               <div>
-                <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2">Lancamentos (mais recentes)</p>
+                <p className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Lancamentos (mais recentes)</p>
                 <div className="space-y-2">
                   {details.transactions.slice(0, 6).map((transaction) => (
                     <div key={transaction.id} className="flex items-center justify-between text-sm">
                       <div className="min-w-0 pr-3">
-                        <p className="text-gray-800 truncate">{transaction.description || transaction.categoryName}</p>
-                        <p className="text-xs text-gray-500 truncate">
+                        <p className="text-gray-800 dark:text-gray-200 truncate">{transaction.description || transaction.categoryName}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                           {transaction.categoryName} - {new Date(transaction.date).toLocaleDateString('pt-BR')}
                         </p>
                       </div>
-                      <span className="font-semibold text-gray-900 shrink-0">{formatCurrency(transaction.amount)}</span>
+                      <span className="font-semibold text-gray-900 dark:text-gray-100 shrink-0">{formatCurrency(transaction.amount)}</span>
                     </div>
                   ))}
                 </div>
@@ -226,9 +226,9 @@ export const Planejar: React.FC = () => {
   };
 
   return (
-    <div className="p-4 space-y-6 pb-24">
+    <div className="p-4 space-y-6 pb-24 dark:bg-black min-h-screen">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Mundo Perfeito</h2>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Mundo Perfeito</h2>
       </div>
 
       <div className="bg-indigo-600 rounded-2xl p-5 text-white shadow-lg">
@@ -238,7 +238,7 @@ export const Planejar: React.FC = () => {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Escolha seu Foco</h3>
+        <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Escolha seu Foco</h3>
         <div className="grid grid-cols-2 gap-3">
           {(Object.keys(profiles) as FocusProfile[]).map((key) => {
             const profile = profiles[key];
@@ -250,23 +250,23 @@ export const Planejar: React.FC = () => {
                 key={key}
                 onClick={() => setFocus(key)}
                 className={`p-3 rounded-xl border text-left transition-all ${
-                  isActive ? 'bg-indigo-50 border-indigo-500 ring-1 ring-indigo-500' : 'bg-white border-gray-200 hover:border-indigo-300'
+                  isActive ? 'bg-indigo-50 dark:bg-indigo-900/20 border-indigo-500 ring-1 ring-indigo-500' : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 hover:border-indigo-300 dark:hover:border-indigo-700'
                 }`}
               >
-                <Icon size={20} className={`mb-2 ${isActive ? 'text-indigo-600' : 'text-gray-400'}`} />
-                <h4 className={`font-semibold text-sm ${isActive ? 'text-indigo-900' : 'text-gray-700'}`}>{profile.label}</h4>
+                <Icon size={20} className={`mb-2 ${isActive ? 'text-indigo-600 dark:text-indigo-400' : 'text-gray-400 dark:text-gray-500'}`} />
+                <h4 className={`font-semibold text-sm ${isActive ? 'text-indigo-900 dark:text-gray-100' : 'text-gray-700 dark:text-gray-300'}`}>{profile.label}</h4>
               </button>
             );
           })}
         </div>
 
-        <p className="text-sm text-gray-600 mt-3 bg-white p-3 rounded-lg border border-gray-100 shadow-sm">
-          <strong>{currentProfile.label}:</strong> {currentProfile.desc}
+        <p className="text-sm text-gray-600 dark:text-gray-400 mt-3 bg-white dark:bg-gray-900 p-3 rounded-lg border border-gray-100 dark:border-gray-800 shadow-sm transition-colors">
+          <strong className="dark:text-gray-200">{currentProfile.label}:</strong> {currentProfile.desc}
         </p>
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Seu Orcamento Ideal</h3>
+        <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Seu Orcamento Ideal</h3>
         {renderBar('essenciais', 'Gastos Essenciais', actualExpenses.essenciais, currentProfile.rules.essenciais, 'bg-indigo-500')}
         {renderBar('estiloVida', 'Estilo de Vida & Desejos', actualExpenses.estiloVida, currentProfile.rules.estiloVida, 'bg-amber-500')}
         {renderBar('investimentos', 'Investimentos & Poupanca', actualExpenses.investimentos, currentProfile.rules.investimentos, 'bg-emerald-500')}

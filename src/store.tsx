@@ -632,13 +632,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    // Apply theme to document
+    // Apply theme to document root and body
+    const root = document.documentElement;
+    const body = document.body;
+    
     if (state.theme === 'dark') {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
+      body.classList.add('dark');
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
+      body.classList.remove('dark');
     }
-  }, [state]);
+    
+    // Ensure smooth transitions
+    body.classList.add('transition-colors', 'duration-300');
+  }, [state.theme]);
 
   useEffect(() => {
     if (!remoteHydrated) return;

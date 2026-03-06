@@ -104,14 +104,14 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
   };
 
   return (
-    <div className="p-4 space-y-6 pb-24">
+    <div className="p-4 space-y-6 pb-24 dark:bg-black min-h-screen">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">A Receber / Pagar</h2>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">A Receber / Pagar</h2>
       </div>
 
-      <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm space-y-3">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 border border-gray-100 dark:border-gray-800 shadow-sm space-y-3">
         <div className="flex items-center justify-between">
-          <p className="text-sm font-semibold text-gray-800 flex items-center">
+          <p className="text-sm font-semibold text-gray-800 dark:text-gray-200 flex items-center">
             <BellRing size={16} className="mr-1.5 text-indigo-500" />
             Lembretes de vencimento
           </p>
@@ -120,7 +120,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
               type="checkbox"
               checked={reminderSettings.enabled}
               onChange={(event) => updateReminderSettings({ enabled: event.target.checked })}
-              className="w-4 h-4 text-indigo-600"
+              className="w-4 h-4 text-indigo-600 dark:bg-gray-800 dark:border-gray-700"
             />
           </label>
         </div>
@@ -129,7 +129,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
           <select
             value={String(reminderSettings.daysBefore)}
             onChange={(event) => updateReminderSettings({ daysBefore: Number(event.target.value) })}
-            className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-sm"
+            className="p-2 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
           >
             <option value="0">No dia do vencimento</option>
             <option value="1">1 dia antes</option>
@@ -140,7 +140,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
           </select>
           <button
             onClick={() => void requestNotificationPermission()}
-            className="py-2 px-3 bg-indigo-50 text-indigo-700 rounded-lg text-sm font-semibold hover:bg-indigo-100"
+            className="py-2 px-3 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 rounded-lg text-sm font-semibold hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
           >
             Permitir notificacoes
           </button>
@@ -149,7 +149,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
         <button
           onClick={settleTodayPendings}
           disabled={!canEdit}
-          className="w-full py-2.5 bg-emerald-50 text-emerald-700 rounded-lg text-sm font-semibold hover:bg-emerald-100 disabled:opacity-50"
+          className="w-full py-2.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-lg text-sm font-semibold hover:bg-emerald-100 dark:hover:bg-emerald-900/50 disabled:opacity-50 transition-colors"
         >
           Quitar pendencias de hoje
         </button>
@@ -160,14 +160,14 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
           <button
             key={type}
             onClick={() => setFilterType(type as any)}
-            className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
+            className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors border ${
               filterType === type
                 ? type === 'income'
-                  ? 'bg-emerald-100 text-emerald-700'
+                  ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800'
                   : type === 'expense'
-                    ? 'bg-rose-100 text-rose-700'
-                    : 'bg-indigo-100 text-indigo-700'
-                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                    ? 'bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-800'
+                    : 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800'
+                : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-850'
             }`}
           >
             {type === 'all' ? 'Todos' : type === 'income' ? 'A Receber' : 'A Pagar'}
@@ -177,18 +177,18 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
 
       <div className="space-y-6">
         {Object.keys(groupedTransactions).length === 0 ? (
-          <div className="text-center py-10 text-gray-500 flex flex-col items-center">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-              <Clock size={24} className="text-gray-400" />
+          <div className="text-center py-10 text-gray-500 dark:text-gray-400 flex flex-col items-center">
+            <div className="w-16 h-16 bg-gray-100 dark:bg-gray-900 rounded-full flex items-center justify-center mb-4">
+              <Clock size={24} className="text-gray-400 dark:text-gray-600" />
             </div>
             <p>Nenhum lancamento pendente.</p>
           </div>
         ) : (
           Object.entries(groupedTransactions).map(([date, txs]) => (
             <div key={date} className="space-y-3">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 py-2 z-10">{date}</h3>
+              <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider sticky top-0 bg-gray-50 dark:bg-black/90 py-2 z-10">{date}</h3>
 
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden">
                 {txs.map((transaction, index) => {
                   const category = categories.find((item) => item.id === transaction.categoryId);
                   const isIncome = transaction.type === 'income';
@@ -197,7 +197,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
                   const installmentLabel = getInstallmentLabel(transaction);
 
                   return (
-                    <div key={transaction.id} className={`p-4 ${index !== txs.length - 1 ? 'border-b border-gray-50' : ''}`}>
+                    <div key={transaction.id} className={`p-4 ${index !== txs.length - 1 ? 'border-b border-gray-50 dark:border-gray-850' : ''}`}>
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-start space-x-4 flex-1 min-w-0">
                           <div
@@ -208,16 +208,16 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
                           </div>
 
                           <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-gray-900 truncate flex items-center">
+                            <p className="font-semibold text-gray-900 dark:text-gray-100 truncate flex items-center">
                               {transaction.description || category?.name}
                               {installmentLabel && (
-                                <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold bg-indigo-100 text-indigo-700 uppercase tracking-wider">
+                                <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-400 uppercase tracking-wider">
                                   {installmentLabel}
                                 </span>
                               )}
                             </p>
 
-                            <div className="flex items-center text-xs text-gray-500 space-x-2 mt-1 truncate">
+                            <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 space-x-2 mt-1 truncate">
                               <span className="flex items-center shrink-0">
                                 <Tag size={10} className="mr-1" /> {category?.name}
                               </span>
@@ -232,9 +232,9 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
                                 className={`flex items-center truncate px-1.5 py-0.5 rounded transition-colors ${
                                   transaction.dueDate
                                     ? isOverdue
-                                      ? 'bg-rose-100 text-rose-700 font-medium'
-                                      : 'bg-indigo-50 text-indigo-700 font-medium'
-                                    : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+                                      ? 'bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-400 font-medium'
+                                      : 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 font-medium'
+                                    : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-750 text-gray-600 dark:text-gray-400'
                                 } ${!canEdit ? 'opacity-60' : ''}`}
                               >
                                 <CalendarIcon size={10} className="mr-1 shrink-0" />
@@ -245,10 +245,10 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
                         </div>
 
                         <div className="flex flex-col items-end shrink-0 ml-2">
-                          <span className={`font-bold ${isIncome ? 'text-emerald-600' : 'text-rose-600'}`}>
+                          <span className={`font-bold ${isIncome ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
                             {isIncome ? '+' : '-'}{formatCurrency(transaction.amount)}
                           </span>
-                          <span className={`text-[11px] mt-1 font-medium ${isOverdue ? 'text-rose-700' : 'text-amber-700'}`}>
+                          <span className={`text-[11px] mt-1 font-medium ${isOverdue ? 'text-rose-700 dark:text-rose-500' : 'text-amber-700 dark:text-amber-500'}`}>
                             {isOverdue ? 'Atrasado' : 'Pendente'}
                           </span>
                         </div>
@@ -261,7 +261,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
                             setTransactionToConfirm(transaction);
                           }}
                           disabled={!canEdit}
-                          className="py-2.5 bg-emerald-50 text-emerald-700 rounded-xl font-semibold text-xs flex items-center justify-center hover:bg-emerald-100 transition-colors disabled:opacity-50"
+                          className="py-2.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-xl font-semibold text-xs flex items-center justify-center hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors disabled:opacity-50"
                         >
                           <CheckCircle size={14} className="mr-1" />
                           Confirmar
@@ -277,7 +277,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
                             }
                           }}
                           disabled={!canEdit}
-                          className="py-2.5 bg-gray-100 text-gray-700 rounded-xl font-semibold text-xs flex items-center justify-center hover:bg-gray-200 transition-colors disabled:opacity-50"
+                          className="py-2.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-semibold text-xs flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-750 transition-colors disabled:opacity-50"
                         >
                           <Edit2 size={14} className="mr-1" />
                           Editar
@@ -292,7 +292,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
                             });
                           }}
                           disabled={!canEdit}
-                          className="py-2.5 bg-rose-50 text-rose-700 rounded-xl font-semibold text-xs flex items-center justify-center hover:bg-rose-100 transition-colors disabled:opacity-50"
+                          className="py-2.5 bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400 rounded-xl font-semibold text-xs flex items-center justify-center hover:bg-rose-100 dark:hover:bg-rose-900/50 transition-colors disabled:opacity-50"
                         >
                           <Trash2 size={14} className="mr-1" />
                           Excluir
@@ -308,23 +308,23 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
       </div>
 
       {transactionToConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl animate-in fade-in zoom-in duration-200">
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Confirmar alteracao</h3>
-            <p className="text-gray-600 mb-6 text-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 w-full max-w-sm shadow-2xl border border-transparent dark:border-gray-800 animate-in zoom-in-95 duration-200">
+            <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">Confirmar alteracao</h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm">
               Deseja marcar "{transactionToConfirm.description || categories.find((category) => category.id === transactionToConfirm.categoryId)?.name}" como pago?
             </p>
             <div className="flex space-x-3">
               <button
                 onClick={() => setTransactionToConfirm(null)}
-                className="flex-1 py-2.5 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-colors"
+                className="flex-1 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium rounded-2xl hover:bg-gray-200 dark:hover:bg-gray-750 transition-colors"
               >
                 Cancelar
               </button>
               <button
                 onClick={confirmToggleStatus}
                 disabled={!canEdit}
-                className="flex-1 py-2.5 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition-colors disabled:opacity-50"
+                className="flex-1 py-3 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 transition-colors disabled:opacity-50 shadow-lg shadow-indigo-200 dark:shadow-none"
               >
                 Confirmar
               </button>
@@ -334,32 +334,32 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
       )}
 
       {editingDueDateFor && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl p-6 w-full max-w-sm shadow-xl animate-in zoom-in-95 duration-200 relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-gray-900 rounded-3xl p-6 w-full max-w-sm shadow-2xl border border-transparent dark:border-gray-800 animate-in zoom-in-95 duration-200 relative">
             <button
               onClick={() => setEditingDueDateFor(null)}
-              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-full transition-colors"
+              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 bg-gray-50 dark:bg-gray-850 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
             >
               <X size={20} />
             </button>
-            <h3 className="text-xl font-bold text-gray-900 mb-1">Definir Prazo</h3>
-            <p className="text-gray-500 text-sm mb-6">Quando este lancamento deve ser pago/recebido?</p>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">Definir Prazo</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">Quando este lancamento deve ser pago/recebido?</p>
 
             <div className="space-y-4">
               <div>
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1 block">Data de Vencimento</label>
+                <label className="text-xs font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-wider mb-1 block">Data de Vencimento</label>
                 <input
                   type="date"
                   value={tempDueDate}
                   onChange={(event) => setTempDueDate(event.target.value)}
-                  className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 text-gray-900 font-medium"
+                  className="w-full p-3 bg-gray-50 dark:bg-gray-850 border border-gray-200 dark:border-gray-800 rounded-xl focus:ring-2 focus:ring-indigo-500 text-gray-900 dark:text-gray-100 font-medium outline-none"
                 />
               </div>
 
               <button
                 onClick={handleSaveDueDate}
                 disabled={!canEdit}
-                className="w-full py-3.5 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-colors shadow-md disabled:opacity-50"
+                className="w-full py-4 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-200 dark:shadow-none disabled:opacity-50"
               >
                 Salvar Prazo
               </button>
@@ -370,19 +370,19 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
 
       {/* Confirmation Modal */}
       {confirmAction && (
-        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl w-full max-w-sm shadow-2xl overflow-hidden animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-gray-900 rounded-3xl w-full max-w-sm shadow-2xl border border-transparent dark:border-gray-800 overflow-hidden animate-in slide-in-from-bottom-4 sm:zoom-in-95 duration-200">
             <div className="p-6 text-center">
-              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-rose-600">
+              <div className="w-16 h-16 bg-rose-100 dark:bg-rose-900/30 rounded-full flex items-center justify-center mx-auto mb-4 text-rose-600 dark:text-rose-400">
                 <AlertTriangle size={32} />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Confirmar Exclusão</h3>
-              <p className="text-gray-500 mb-6">{confirmAction.message}</p>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Confirmar Exclusão</h3>
+              <p className="text-gray-500 dark:text-gray-400 mb-6">{confirmAction.message}</p>
               
               <div className="flex gap-3">
                 <button
                   onClick={() => setConfirmAction(null)}
-                  className="flex-1 py-3.5 px-4 bg-gray-100 text-gray-700 font-bold rounded-2xl hover:bg-gray-200 transition-colors"
+                  className="flex-1 py-3.5 px-4 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-bold rounded-2xl hover:bg-gray-200 dark:hover:bg-gray-750 transition-colors"
                 >
                   Cancelar
                 </button>
@@ -391,7 +391,7 @@ export const Pendentes: React.FC<{ onEdit?: (tx: Transaction) => void }> = ({ on
                     confirmAction.onConfirm();
                     setConfirmAction(null);
                   }}
-                  className="flex-1 py-3.5 px-4 bg-rose-600 text-white font-bold rounded-2xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200"
+                  className="flex-1 py-3.5 px-4 bg-rose-600 text-white font-bold rounded-2xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200 dark:shadow-none"
                 >
                   Excluir
                 </button>

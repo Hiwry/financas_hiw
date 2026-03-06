@@ -52,7 +52,7 @@ export const SwipeableItem: React.FC<SwipeableItemProps> = ({
   return (
     <div className="relative overflow-hidden w-full" ref={containerRef}>
       {/* Background Actions */}
-      <div className="absolute inset-0 flex justify-between items-center z-0 bg-gray-100">
+      <div className="absolute inset-0 flex justify-between items-center z-0 bg-gray-100 dark:bg-black">
         <div className="flex-1 h-full flex items-center justify-start" onClick={() => { onActionClick?.(); close(); }}>
           {leftActions}
         </div>
@@ -68,7 +68,7 @@ export const SwipeableItem: React.FC<SwipeableItemProps> = ({
         dragElastic={0.1}
         onDragEnd={handleDragEnd}
         animate={controls}
-        className="relative z-10 bg-white w-full h-full"
+        className="relative z-10 bg-white dark:bg-gray-900 w-full h-full"
         style={{ touchAction: 'pan-y' }}
         onClick={() => {
           if (isOpen) close();
