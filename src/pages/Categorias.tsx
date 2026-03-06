@@ -329,68 +329,72 @@ export const Categorias: React.FC = () => {
 
         <div className="space-y-2">
           {household.members.map((member) => (
-            <div key={member.id} className="grid grid-cols-[1fr_auto_auto] gap-2 items-center">
+            <div key={member.id} className="flex flex-col sm:flex-row gap-2 sm:items-center">
               <input
                 value={member.name}
                 onChange={(event) => updateHouseholdMember({ ...member, name: event.target.value })}
-                className="p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
+                className="flex-1 min-w-0 p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
                 disabled={!canEdit}
               />
-              <select
-                value={member.role}
-                onChange={(event) => updateHouseholdMember({ ...member, role: event.target.value as HouseholdRole })}
-                className="p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
-                disabled={!canEdit}
-              >
-                <option value="owner">owner</option>
-                <option value="editor">editor</option>
-                <option value="viewer">viewer</option>
-              </select>
-              <button
-                onClick={() => {
-                  if (household.members.length <= 1) return;
-                  setConfirmAction({
-                    message: `Remover o membro "${member.name}"?`,
-                    onConfirm: () => deleteHouseholdMember(member.id),
-                  });
-                }}
-                disabled={!canEdit || household.members.length <= 1}
-                className="p-2 rounded-lg bg-rose-50 dark:bg-rose-900/10 text-rose-600 dark:text-rose-400 disabled:opacity-50"
-              >
-                <Trash2 size={14} />
-              </button>
+              <div className="flex gap-2 w-full sm:w-auto mt-1 sm:mt-0">
+                <select
+                  value={member.role}
+                  onChange={(event) => updateHouseholdMember({ ...member, role: event.target.value as HouseholdRole })}
+                  className="flex-1 sm:w-auto p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
+                  disabled={!canEdit}
+                >
+                  <option value="owner">owner</option>
+                  <option value="editor">editor</option>
+                  <option value="viewer">viewer</option>
+                </select>
+                <button
+                  onClick={() => {
+                    if (household.members.length <= 1) return;
+                    setConfirmAction({
+                      message: `Remover o membro "${member.name}"?`,
+                      onConfirm: () => deleteHouseholdMember(member.id),
+                    });
+                  }}
+                  disabled={!canEdit || household.members.length <= 1}
+                  className="p-2 rounded-lg bg-rose-50 dark:bg-rose-900/10 text-rose-600 dark:text-rose-400 disabled:opacity-50 shrink-0 flex items-center justify-center aspect-square"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-[1fr_auto_auto] gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <input
             value={newMemberName}
             onChange={(event) => setNewMemberName(event.target.value)}
             placeholder="Novo membro"
-            className="p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
+            className="flex-1 min-w-0 p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
           />
-          <select
-            value={newMemberRole}
-            onChange={(event) => setNewMemberRole(event.target.value as HouseholdRole)}
-            className="p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
-          >
-            <option value="editor">editor</option>
-            <option value="viewer">viewer</option>
-            <option value="owner">owner</option>
-          </select>
-          <button
-            onClick={() => {
-              if (!canEdit || !newMemberName.trim()) return;
-              addHouseholdMember(newMemberName.trim(), newMemberRole);
-              setNewMemberName('');
-              setNewMemberRole('editor');
-            }}
-            disabled={!canEdit}
-            className="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold disabled:opacity-50 hover:bg-indigo-700 transition-colors"
-          >
-            Add
-          </button>
+          <div className="flex gap-2 w-full sm:w-auto mt-1 sm:mt-0">
+            <select
+              value={newMemberRole}
+              onChange={(event) => setNewMemberRole(event.target.value as HouseholdRole)}
+              className="flex-1 sm:w-auto p-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-900 dark:text-gray-100 outline-none"
+            >
+              <option value="editor">editor</option>
+              <option value="viewer">viewer</option>
+              <option value="owner">owner</option>
+            </select>
+            <button
+              onClick={() => {
+                if (!canEdit || !newMemberName.trim()) return;
+                addHouseholdMember(newMemberName.trim(), newMemberRole);
+                setNewMemberName('');
+                setNewMemberRole('editor');
+              }}
+              disabled={!canEdit}
+              className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold disabled:opacity-50 hover:bg-indigo-700 transition-colors shrink-0"
+            >
+              Add
+            </button>
+          </div>
         </div>
       </div>
 
